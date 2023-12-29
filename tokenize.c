@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2023/12/28 19:29:57 by minkylee         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:21:53 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,30 @@ char *find_delimited(char *token, t_comm **cmd)
                 init_list(cmd, new_token, STR);
                 free(new_token);
             }
+			// 파이프 출력
+			if (token[i] == '|')
+			{
+				new_token = mk_strdup(i, i, token);
+				init_list(cmd, new_token, PIPE);
+			}
 
-            // 리다이렉션과 파이프 기호 출력
+            // 리다이렉션과 기호 출력
             if ((token[i] == '<' || token[i] == '>') && token[i + 1] == token[i])
             {
                 new_token = mk_strdup(i, i + 1, token);
-				init_list(cmd, new_token, RED);
+				if (new_token[0] == '<')
+					init_list(cmd, new_token, DLESS);
+				else
+					init_list(cmd, new_token, DGREAT);
                 i += 2;
             }
             else
             {
                 new_token = mk_strdup(i, i, token);
-				init_list(cmd, new_token, RED);
+				if (new_token[0] == '<')
+					init_list(cmd, new_token, LESS);
+				else
+					init_list(cmd, new_token, GREAT);
                 i++;
             }
             free(new_token);

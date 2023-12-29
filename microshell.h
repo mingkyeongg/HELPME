@@ -26,8 +26,11 @@ typedef struct s_comm
 } t_comm;
 
 #define STR 0
-#define PIP 1
-#define RED 2
+#define PIPE 1
+#define DLESS 2 // <<
+#define LESS 3 // <
+#define DGREAT 4 // >>
+#define GREAT 5 // >
 
 #define SYNTAX_ERR 258
 
