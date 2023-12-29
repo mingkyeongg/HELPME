@@ -6,11 +6,19 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2023/12/29 18:55:39 by minkylee         ###   ########.fr       */
+/*   Updated: 2023/12/29 19:24:03 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "microshell.h"
+
+/*
+
+
+	지금 쿼트 안에 환경변수를 처리하면서 힙-오버플로가 난다.
+	"hi my home is'$HOME'" 이런걸 쓰면 나는데 내일 오면 뭐때문인지 확인해볼것!!!!!!!!
+
+*/
 
 void print(t_comm *cmd)
 {
@@ -65,7 +73,7 @@ char *find_delimited(char *token, t_comm **cmd)
             if (i > start)
             {
                 new_token = mk_strdup(start, i - 1, token);
-				process_env_var(&new_token);
+				process_env_var(&new_token, cmd);
                 init_list(cmd, new_token, STR);
                 free(new_token);
             }
@@ -120,18 +128,16 @@ int process_dquo(char *line, int start, char **temp, t_comm **cmd)
     while (line[end])
     {
         if (is_dquotes(line[end]))
+		{
             token = mk_strdup(start + 1, end - 1, line);
+			break;
+		}
         end++;
     }
 	memset(*temp, 0, strlen(line));
 	strcat(*temp, isolation);
 	strcat(*temp, token);
-	printf("end : %d\nline[end] : %c\n", end, line[end]);
-	if (end == ft_strlen(line))
-	{
-		init_list(cmd, *temp, STR);
-		memset(temp, 0, strlen(line));
-	}
+	process_env_var(temp, cmd);
     return ft_strlen(token) + 2;
 }
 
@@ -198,7 +204,7 @@ void split_line(char *line, t_comm **cmd)
 			if (!is_space(line[i]) && line[i + 1] == '\0') 
                 temp[token_index++] = line[i];
 			token = find_delimited(temp, cmd);
-			process_env_var(&token);
+			process_env_var(&token, cmd);
 			bzero(temp, strlen(line) + 1);
 			token_index = 0;
 			init_list(cmd, token, STR);
@@ -220,11 +226,11 @@ void split_line(char *line, t_comm **cmd)
 		else if (is_dquotes(line[i]))
 		{
 			i += process_dquo(line, i, &temp, cmd);
-			// if (!line[i])
-			// {
-			// 	init_list(cmd, temp, STR);
-			// 	memset(temp, 0, strlen(line));
-			// }
+			if (!line[i])
+			{
+				init_list(cmd, temp, STR);
+				memset(temp, 0, strlen(line));
+			}
 			token_index = strlen(temp);
 			continue;
 		}
@@ -236,8 +242,19 @@ void split_line(char *line, t_comm **cmd)
 	print(*head);
 }
 
+int check_dgreat(t_comm *cmd)
+{
+	if (!cmd)
+		return 1;
+	while(cmd->next)
+		cmd = cmd->next;
+	if (cmd->type == DGREAT)
+		return 0;
+	return 1;
+}
+
 /* 환경변수 값을 대치합니다.*/
-void process_env_var(char **token)
+void process_env_var(char **token, t_comm **cmd)
 {
     char *var_name;
 	char *var_value;
@@ -247,6 +264,8 @@ void process_env_var(char **token)
     char *dollar_pos = strchr(*token, '$');
     if (dollar_pos == NULL) 
 		return; // '$' 없으면 종료
+	if (!check_dgreat(*cmd)) // 만약 직전 토큰이 DGREAT라면
+		return;
 
     var_name = dollar_pos + 1;
     var_value = getenv(var_name); // 환경변수 값 찾기

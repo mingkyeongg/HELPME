@@ -37,7 +37,7 @@ typedef struct s_comm
 /* tokenize */
 void split_line(char *line, t_comm **cmd);
 char *mk_strdup(int start, int end, char *line);
-void process_env_var(char **token);
+void process_env_var(char **token, t_comm **cmd);
 void init_list(t_comm **cmd, char *token, int type);
 
 int process_dquo(char *line, int start, char **temp, t_comm **cmd);
