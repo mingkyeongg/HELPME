@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2023/12/29 18:21:53 by minkylee         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:28:26 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void print(t_comm *cmd)
 {
 	while (cmd)
 	{
-		printf("token : %s\n", cmd->token);
+		printf("token : %s type : %d\n", cmd->token, cmd->type);
 		cmd = cmd->next;
 	}
 }
