@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2023/12/29 18:28:26 by minkylee         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:55:39 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void print(t_comm *cmd)
 {
 	while (cmd)
 	{
-		printf("token : %s type : %d\n", cmd->token, cmd->type);
+		printf("token : %s             type : %d\n", cmd->token, cmd->type);
 		cmd = cmd->next;
 	}
 }
@@ -25,21 +25,27 @@ void print(t_comm *cmd)
 char *mk_strdup(int start, int end, char *line)
 {
     char *new_line;
-    int i;
+    int i, j;
 
+    // 메모리 할당 (길이 계산은 동일하게 유지)
     new_line = (char *)malloc(sizeof(char) * (end - start + 2));
     if (new_line == NULL)
-        return NULL; // 할당 실패 시 NULL 반환
-    i = 0;
-    while (start <= end)
-    {
-        if (line[start] == '\0') 
-			break;
-        new_line[i++] = line[start++];
+        return NULL;  // 할당 실패 시 NULL 반환
+
+    i = 0;  // 새 문자열의 인덱스
+    j = start;  // 원본 문자열의 인덱스
+    while (j <= end)
+	{
+        if (line[j] == '\0') 
+            break;  // 원본 문자열의 끝에 도달
+        if (!is_space(line[j]))
+            new_line[i++] = line[j];
+        j++;
     }
-    new_line[i] = '\0';
+    new_line[i] = '\0';  // 새 문자열 끝에 널 종료 문자 추가
     return new_line;
 }
+
 
 char *find_delimited(char *token, t_comm **cmd)
 {
@@ -51,6 +57,8 @@ char *find_delimited(char *token, t_comm **cmd)
     while (token[i])
     {
         // 리다이렉션과 파이프 기호 처리
+		while(is_space(token[i]))
+			start++;
         if (token[i] == '<' || token[i] == '>' || token[i] == '|')
         {
             // 현재까지의 일반 문자열 출력
@@ -66,10 +74,11 @@ char *find_delimited(char *token, t_comm **cmd)
 			{
 				new_token = mk_strdup(i, i, token);
 				init_list(cmd, new_token, PIPE);
+				i++;
 			}
 
             // 리다이렉션과 기호 출력
-            if ((token[i] == '<' || token[i] == '>') && token[i + 1] == token[i])
+            else if ((token[i] == '<' || token[i] == '>') && token[i + 1] == token[i])
             {
                 new_token = mk_strdup(i, i + 1, token);
 				if (new_token[0] == '<')
@@ -111,9 +120,7 @@ int process_dquo(char *line, int start, char **temp, t_comm **cmd)
     while (line[end])
     {
         if (is_dquotes(line[end]))
-		{
             token = mk_strdup(start + 1, end - 1, line);
-		}
         end++;
     }
 	memset(*temp, 0, strlen(line));
@@ -152,6 +159,8 @@ int process_squo(char *line, int start, char **temp, t_comm **cmd)
 
 void init_list(t_comm **cmd, char *token, int type)
 {
+	if (token[0] == '\0')
+		return;
     t_comm *push = (t_comm *)malloc(sizeof(t_comm));
     if (!push) return;  // 메모리 할당 확인
  
