@@ -146,6 +146,6 @@ int main(int argc, char **argv)
 		free_list(cmd);
 		cmd = malloc(sizeof(t_comm));
 		cmd = NULL;
+		
 	}
-
 }
