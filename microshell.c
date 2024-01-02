@@ -110,6 +110,8 @@ int tokenizing(char *line, t_comm **cmd)
 int read_input(t_comm **cmd)
 {
 	char *read = readline("minishell$ ");
+	if (read == NULL)
+		exit(0);
 	if (!tokenizing(read, cmd))
 	{
 		add_history(read);
@@ -135,7 +137,7 @@ void free_list(t_comm *cmd)
 }
 
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	t_comm *cmd;
 

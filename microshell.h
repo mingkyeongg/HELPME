@@ -32,12 +32,17 @@ typedef struct s_comm
 #define DGREAT 4 // >>
 #define GREAT 5 // >
 
+#define remove 6
+#define leave 7
+#define QUOTED 8
+#define UNQUOTED 9
+
 #define SYNTAX_ERR 258
 
 /* tokenize */
 void split_line(char *line, t_comm **cmd);
-char *mk_strdup(int start, int end, char *line);
-void process_env_var(char **token, t_comm **cmd);
+char *mk_strdup(int start, int end, char *line, int flag);
+int process_env_var(char **token, t_comm **cmd, int flag);
 void init_list(t_comm **cmd, char *token, int type);
 
 int process_dquo(char *line, int start, char **temp, t_comm **cmd);
@@ -46,6 +51,7 @@ int is_space(char a);
 int is_dquotes(char a);
 int is_squotes(char a);
 int is_del(char *line);
+int is_env(char a);
 
 int find_syntax_err(char *buf);
 
