@@ -6,13 +6,13 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:36:07 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/04 17:14:40 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:35:48 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-void    ft_echo(char **args)
+void    ft_echo(char **args)// -nnnn수정해야함
 {
 	int	i;
 	
@@ -28,11 +28,4 @@ void    ft_echo(char **args)
 	}
 	if (args[i] == NULL || ft_strcmp(args[1], "-n") != 0)
 		ft_putstr_fd("\n", 1);
-}
-
-int	main(int argc, char **argv)
-{
-	ft_echo(argv + 1);
-
-	return (argc);
 }

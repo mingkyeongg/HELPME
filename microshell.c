@@ -134,11 +134,14 @@ void free_list(t_comm *cmd)
     }
 }
 
-
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	t_comm *cmd;
+	t_envp *my_envp;
+	char	**args;
+	int		args_cnt;
 
+	my_envp = make_envp(envp);
 	while(1)
 	{
 		if (!read_input(&cmd))
@@ -146,6 +149,8 @@ int main(int argc, char **argv)
 		free_list(cmd);
 		cmd = malloc(sizeof(t_comm));
 		cmd = NULL;
-		
+		args = make_args(cmd, &args_cnt);
+		if (is_blt(args))
+			exe_cmd(args, args_cnt);
 	}
 }

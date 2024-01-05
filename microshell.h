@@ -25,12 +25,24 @@ typedef struct s_comm
 	struct s_comm	*next;
 } t_comm;
 
+typedef struct s_envp
+{
+	int		state;
+	char	*key;
+	char	*value;
+	t_envp	*next;
+} t_envp;
+
+
 #define STR 0
 #define PIPE 1
 #define DLESS 2 // <<
 #define LESS 3 // <
 #define DGREAT 4 // >>
 #define GREAT 5 // >
+
+#define HAS_EQUAL 10 // envp_state
+#define NO_EQUAL 11
 
 #define SYNTAX_ERR 258
 
@@ -53,5 +65,19 @@ int		ft_strcmp(char *s1, char *s2);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
+
+char	**put_args(char **args, char *token, int cnt);
+char	**make_args(t_comm *com, int *args_cnt);
+
+void	exe_cmd(char **args, int args_cnt);
+int		is_blt(char **args);
+
+t_envp	*make_envp(char **envp);
+
+void    ft_pwd(char **args);
+int		ft_cd(char **args);
+void    ft_echo(char **args);// -nnnn수정해야함
+int		ft_export(t_envp *my_envp, char **args, int args_cnt);
+void    ft_unset(t_envp *my_envp, char **args);
 
 #endif
