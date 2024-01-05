@@ -148,5 +148,4 @@ int main(int argc, char **argv, char **envp)
 			continue;
 		free_list(cmd);
 	}
-
 }

@@ -52,6 +52,7 @@ typedef struct s_data
 #define SYNTAX_ERR 258
 
 /* tokenize */
+
 void split_line(char *line, t_comm **cmd);
 char *mk_strdup(int start, int end, char *line, int flag);
 int process_env_var(char **token, t_comm **cmd, int flag, char *line);
@@ -64,7 +65,12 @@ int is_del(char *line);
 int is_env(char a);
 int only_space(char *buf);
 
-int find_syntax_err(char *buf);
+int 	find_syntax_err(char *buf);
+
+int		ft_strcmp(char *s1, char *s2);
+void	ft_putstr_fd(char *s, int fd);
+size_t	ft_strlen(const char *s);
+char	*ft_strdup(const char *s);
 
 
 char  *process_squo(char *line, int *i, int *start, t_comm **cmd);
