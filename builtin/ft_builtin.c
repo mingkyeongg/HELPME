@@ -1,37 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtin.c                                          :+:      :+:    :+:   */
+/*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:49:29 by seokjyan          #+#    #+#             */
-/*   Updated: 2023/12/29 19:21:44 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/04 17:29:31 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
+#include "../microshell.h"
 
-int	ft_echo(t_comm *com)
-{
-	char	*str;
-
-	str = NULL;
-	if (!com->next->token)
-		return (0);
-	com = com->next;
-	if (com->token != '-n')
-		ft_putstr_fd(com->token, 1);
-	else
-	{
-		com = com->next;
-		ft_putstr_fd(com->token, 1);
-		ft_putstr_fd('\n', 1);
-	}
-	return (1);
-}
-
-void	exe_cmd(t_comm *cur)	
+void	exe_cmd(t_comm *cur)
 {
 	if (ft_strncmp(cur->token, "cd", 2) == 0)
 		ft_cd(cur);
@@ -51,21 +32,61 @@ void	exe_cmd(t_comm *cur)
 		ft_execve(cur);
 }
 
-int	is_blt(t_comm *com)
+int	is_blt(t_comm *cur)
 {
-	if(ft_strncmp(com->token, "cd", 2) == 0)
+	if (ft_strncmp(cur->token, "cd", 2) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "echo", 4) == 0)
+	else if (ft_strncmp(cur->token, "echo", 4) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "env", 3) == 0)
+	else if (ft_strncmp(cur->token, "env", 3) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "exit", 4) == 0)
+	else if (ft_strncmp(cur->token, "exit", 4) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "export", 6) == 0)
+	else if (ft_strncmp(cur->token, "export", 6) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "pwd", 3) == 0)
+	else if (ft_strncmp(cur->token, "pwd", 3) == 0)
 		return (1);
-	if(ft_strncmp(com->token, "unset", 5) == 0)
+	else if (ft_strncmp(cur->token, "unset", 5) == 0)
 		return (1);
-	return (0);
+	else
+		return (1);
+}
+
+char	**put_args(char **args, char *token, int cnt)
+{
+	char	**new_args;
+	int		len;
+	int		i;
+
+	len = ft_strlen(token);
+	new_args = (char **)malloc(sizeof(char *) * (cnt + 1));
+	i = 0;
+	while (args[i] != NULL)
+	{
+		new_args[i] = args[i];
+		i++;
+	}
+	new_args[cnt - 1] = token;
+	new_args[cnt] = '\0';
+	if (!args)
+		free(args);
+	return (new_args);
+}
+
+char	**make_args(t_comm *com)
+{
+	int		cnt;
+	char	**args;
+
+	cnt = 0;
+	while (com->token != NULL)
+	{
+		if (is_redirection(com->token) == 0 && \
+			com->next != NULL && com->next->next != NULL)
+			com = com->next->next;
+		cnt++;
+		args = put_args(args, com->token, cnt);
+	}
+	com->token;
+	return (args);
 }

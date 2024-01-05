@@ -1,1 +1,75 @@
 
+echo with option -n
+-n 옵션을 사용할 수 있는 echo
+
+cd with only a relative or absolute path
+오직 상대 또는 절대경로만 사용하는 cd
+
+pwd with no options
+옵션이 없는 pwd
+
+export with no options
+옵션이 없는 export
+
+unset with no options
+옵션이 없는 unset
+
+env with no options or arguments
+옵션이나 인자값이 없는 env
+
+exit with no options
+옵션이 없는 exit
+
+readline
+rl_clear_history
+rl_on_new_line
+rl_replace_line
+rl_redisplay
+add_history
+printf
+malloc
+free
+write
+access
+open
+read
+close
+fork
+wait
+waitpid
+wait3
+wait4
+signal
+sigaction
+sigemptyset
+sigaddset
+kill
+exit
+getcwd
+chdir
+stat
+lstat
+fstat
+unlink
+execve
+dup
+dup2
+pipe
+opendir
+readdir
+closedir
+strerror
+perror
+isatty
+ttyname
+ttyslot
+ioctl
+getenv
+tcsetattr
+tcgetattr
+tgetent
+tgetflag
+tgetnum
+tgetstr
+tgoto
+tputs
