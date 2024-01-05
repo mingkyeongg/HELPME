@@ -74,11 +74,10 @@ int is_env(char a)
 }
 
 
-int tokenizing(char *line, t_comm **cmd)
+int tokenizing(char *line, t_comm **cmd, int i)
 {
 	char *buf = (char *)malloc(sizeof(char) * strlen(line) + 1);
 	bzero(buf, strlen(line) + 1);
-	int i = 0;
 
 	while (line[i])
 	{
@@ -101,7 +100,7 @@ int tokenizing(char *line, t_comm **cmd)
 	if (!find_syntax_err(buf))
 	{
 		free(buf);
-		return 1;
+		return 0;
 	}
 	split_line(line, cmd);
 	return 1;
@@ -110,7 +109,9 @@ int tokenizing(char *line, t_comm **cmd)
 int read_input(t_comm **cmd)
 {
 	char *read = readline("minishell$ ");
-	if (!tokenizing(read, cmd))
+	if (read == NULL)
+		exit(0);
+	if (!tokenizing(read, cmd, 0))
 	{
 		add_history(read);
 		free(read);
@@ -135,17 +136,16 @@ void free_list(t_comm *cmd)
 }
 
 
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **envp)
 {
 	t_comm *cmd;
 
 	while(1)
 	{
+		cmd = malloc(sizeof(t_comm));
+		cmd = NULL;
 		if (!read_input(&cmd))
 			continue;
 		free_list(cmd);
-		cmd = malloc(sizeof(t_comm));
-		cmd = NULL;
-		
 	}
 }
