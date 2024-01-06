@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 17:25:44 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/05 20:54:14 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/06 21:03:58 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	list_export(t_envp *my_envp)
 {
 	while (my_envp != NULL)
 	{
-		if (my_envp->key != "")
+		if (ft_strcmp(my_envp->key, "") != 0)
 		{
 			ft_putstr_fd("declare -x ", 1);
 			ft_putstr_fd(my_envp->key, 1);
@@ -57,33 +57,90 @@ void	list_export(t_envp *my_envp)
 			{
 				ft_putstr_fd("=", 1);
 				ft_putstr_fd(my_envp->value, 1);
-				ft_putstr_fd("\n", 1);
 			}
+			ft_putstr_fd("\n", 1);
 		}
 		my_envp = my_envp->next;
 	}
 }
 
+int	check_key(t_envp *my_envp, char *key)
+{
+	int	i;
+
+	i = 0;
+	while (my_envp != NULL)
+	{
+		if (ft_strcmp(my_envp->key, key) != 0)
+			return (i);
+		my_envp = my_envp->next;
+		i++;
+	}
+	return (-1);
+}
+
+int	has_key(t_envp *my_envp, char **args, int i)
+{
+	int		i_word;
+	char	*key;
+	int		i_key;
+	
+	if (ft_strrchr(args[i], (int)'=') != NULL)
+	{
+		i_word = 0;
+		while (args[i][i_word] != '\0' && args[i][i_word] != '=')
+			i_word++;
+		key = ft_substr(args[i], 0, i_word);
+	}
+	else
+		key = ft_strdup(args[i]);
+	printf("%s\n", key);
+	// printf("%s\n", my_envp->key);
+	i_key = check_key(my_envp, key);
+	if (i_key != -1)
+	{
+		free(key);
+		return (i_key);
+	}
+	free(key);
+	return (-1);
+}
+
+void	modi_envp(t_envp *my_envp, char **args,int i, int i_key)
+{
+	int	i_c;
+	int	i_word;
+
+	i_c = 0;
+	while (i_c < i_key)
+		my_envp = my_envp->next;
+	add_envp(my_envp, args, i);
+}
+
 void	add_export(t_envp *my_envp, char **args)
 {
 	int	i_word;
+	int	i_key;
+	int	i;
 
-	while (my_envp != NULL || my_envp->next != NULL)
+	while (my_envp != NULL && my_envp->next != NULL)
 		my_envp = my_envp->next;
-	if (ft_strrchr(args[1] != NULL, (int)'=') == NULL)
+	my_envp->next = (t_envp *)malloc(sizeof(t_envp));
+	my_envp = my_envp->next;
+	i = 1;
+	while (args[i] != NULL)
 	{
-		my_envp->key = ft_strdup(args[1]);
-		my_envp->value = "";
-		my_envp->state = NO_EQUAL;
-	}
-	else
-	{
-		i_word = 0;
-		while (args[1][i_word] != NULL && args[1][i_word] != '=')
-			i_word++;
-		my_envp->key = ft_substr(args[1], 0, i_word);
-		my_envp->value = ft_strdup(args[1] + i_word + 1);
-		my_envp->state = HAS_EQUAL;
+		// i_key = has_key(my_envp, args, i);
+		// if (i_key != -1)
+		// 	modi_envp(my_envp, args, i, i_key);
+		// else
+			add_envp(my_envp, args, i);
+		i++;
+		if (args[i] != NULL)
+			my_envp->next = (t_envp *)malloc(sizeof(t_envp));
+		else
+			my_envp->next = NULL;
+		my_envp = my_envp->next;
 	}
 }
 
@@ -96,6 +153,7 @@ int		ft_export(t_envp *my_envp, char **args, int args_cnt)
 		list_export(my_envp);
 	else
 		add_export(my_envp, args);
+	return (1);
 }
 
 // int		ft_export(char **args, char **envp)

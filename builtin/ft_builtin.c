@@ -6,30 +6,30 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:49:29 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/05 18:00:06 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:16:33 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-void	exe_cmd(char **args, int args_cnt)
+void	exe_cmd(t_envp *my_envp, char **args, int args_cnt)
 {
 	if (ft_strncmp(args[0], "cd", 2) == 0)
 		ft_cd(args);
 	else if (ft_strncmp(args[0], "echo", 4) == 0)
 		ft_echo(args);
 	else if (ft_strncmp(args[0], "env", 3) == 0)
-		ft_env(args);
-	else if (ft_strncmp(args[0], "exit", 4) == 0)
-		ft_exit(args);
+		ft_env(my_envp);
+	// else if (ft_strncmp(args[0], "exit", 4) == 0)
+		// ft_exit(args);
 	else if (ft_strncmp(args[0], "export", 6) == 0)
-		ft_export(args);
+		ft_export(my_envp, args, args_cnt);
 	else if (ft_strncmp(args[0], "pwd", 3) == 0)
 		ft_pwd(args);
 	else if (ft_strncmp(args[0], "unset", 5) == 0)
-		ft_unset(args);
-	else
-		ft_execve(args);
+		ft_unset(my_envp, args);
+	// else
+	// 	ft_execve(args);
 }
 
 int	is_blt(char **args)

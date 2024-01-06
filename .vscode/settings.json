@@ -1,8 +1,6 @@
 {
     "files.associations": {
-        "libft.h": "c",
         "microshell.h": "c",
-        "utsname.h": "c",
-        "readline.h": "c"
+        "libft.h": "c"
     }
 }
