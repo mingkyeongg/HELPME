@@ -25,6 +25,15 @@ typedef struct s_comm
 	struct s_comm	*next;
 } t_comm;
 
+
+typedef struct s_envp
+{
+	int		state;
+	char	*key;
+	char	*value;
+	t_envp	*next;
+} t_envp;
+
 typedef struct s_data
 {
 	int 	in_fd; 
@@ -34,6 +43,7 @@ typedef struct s_data
 }	t_data;
 
 
+
 #define STR 0
 #define PIPE 1
 #define DLESS 2 // <<
@@ -41,6 +51,10 @@ typedef struct s_data
 #define DGREAT 4 // >>
 #define GREAT 5 // >
 
+
+#define HAS_EQUAL 10 // envp_state
+#define NO_EQUAL 11
+// need define num change
 #define REMOVE 6
 #define LEAVE 7
 #define QUOTED 8
@@ -48,6 +62,7 @@ typedef struct s_data
 #define CONTINUE 10
 #define SINGLE 11
 #define DOUBLE 12
+
 
 #define SYNTAX_ERR 258
 
@@ -72,6 +87,19 @@ void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 
+char	**put_args(char **args, char *token, int cnt);
+char	**make_args(t_comm *com, int *args_cnt);
+
+void	exe_cmd(char **args, int args_cnt);
+int		is_blt(char **args);
+
+t_envp	*make_envp(char **envp);
+
+void    ft_pwd(char **args);
+int		ft_cd(char **args);
+void    ft_echo(char **args);// -nnnn수정해야함
+int		ft_export(t_envp *my_envp, char **args, int args_cnt);
+void    ft_unset(t_envp *my_envp, char **args);
 
 char  *process_squo(char *line, int *i, int *start, t_comm **cmd);
 char  *process_dquo(char *line, int *i, int *start, t_comm **cmd);
@@ -87,7 +115,6 @@ char *find_delimited(char *token, t_comm **cmd, int i, int start);
 char* find_last_dollar(char* str);
 void remove_undefined_env(char **token);
 int return_last_dollar_pos(char *str);
-
 
 
 #endif

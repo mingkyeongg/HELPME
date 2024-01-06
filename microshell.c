@@ -139,7 +139,11 @@ void free_list(t_comm *cmd)
 int main(int argc, char **argv, char **envp)
 {
 	t_comm *cmd;
+	t_envp *my_envp;
+	char	**args;
+	int		args_cnt;
 
+	my_envp = make_envp(envp);
 	while(1)
 	{
 		cmd = malloc(sizeof(t_comm));
