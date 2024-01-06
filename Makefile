@@ -1,28 +1,30 @@
 NAME = minishell
-SRCS = tokenize.c microshell.c find_synerr.c
+SRCS = tokenize.c microshell.c find_synerr.c process_dollar.c process_token.c process_delimited.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
+CC = cc
+CFLAGS = -Wall -Werror -Wextra
+SANITIZE = -g -fsanitize=address
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
+
+$(NAME): $(OBJS) $(LIBFT)
+	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
 
 $(LIBFT):
-	make -C ./Libft
+	$(MAKE) -C ./Libft
 
-$(NAME): $(OBJS)
-	cc -g -fsanitize=address -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
-
-.c.o:
-	cc -c $< -o $@
+%.o: %.c
+	$(CC) -c $(SANITIZE) $< -o $@
 
 clean:
-	rm -rf $(OBJS)
-	make clean -C ./Libft
+	rm -f $(OBJS)
+	$(MAKE) clean -C ./Libft
 
 fclean: clean
-	rm -rf $(NAME)
-	make fclean -C ./Libft
+	rm -f $(NAME)
+	$(MAKE) fclean -C ./Libft
 
 re: fclean all
 
 .PHONY: all clean fclean re
-

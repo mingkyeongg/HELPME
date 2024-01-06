@@ -6,23 +6,31 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2023/12/29 18:55:39 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/05 18:40:41 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "microshell.h"
 
+/*
+
+
+	문제
+	1. 엔터만 치면 터져버림 ㅠㅠㅠ
+	
+*/
+
 void print(t_comm *cmd)
 {
 	while (cmd)
 	{
-		printf("token : %s             type : %d\n", cmd->token, cmd->type);
+		printf("token : %s             type : %d      length : %d\n", cmd->token, cmd->type, cmd->length);
 		cmd = cmd->next;
 	}
 }
 
 /* start ~ end 까지의 문자열 반환하는 함수 */
-char *mk_strdup(int start, int end, char *line)
+char *mk_strdup(int start, int end, char *line, int flag)
 {
     char *new_line;
     int i, j;
@@ -30,7 +38,7 @@ char *mk_strdup(int start, int end, char *line)
     // 메모리 할당 (길이 계산은 동일하게 유지)
     new_line = (char *)malloc(sizeof(char) * (end - start + 2));
     if (new_line == NULL)
-        return NULL;  // 할당 실패 시 NULL 반환
+        exit(1);
 
     i = 0;  // 새 문자열의 인덱스
     j = start;  // 원본 문자열의 인덱스
@@ -38,141 +46,54 @@ char *mk_strdup(int start, int end, char *line)
 	{
         if (line[j] == '\0') 
             break;  // 원본 문자열의 끝에 도달
-        if (!is_space(line[j]))
+        if (!is_space(line[j]) && flag == REMOVE)
             new_line[i++] = line[j];
+		else if (flag == LEAVE)
+			new_line[i++] = line[j];
         j++;
     }
     new_line[i] = '\0';  // 새 문자열 끝에 널 종료 문자 추가
-    return new_line;
+	return new_line;
 }
 
-
-char *find_delimited(char *token, t_comm **cmd)
+int prev_check(t_comm **cmd, char *token, int type)
 {
-    int i = 0;
-    int start = i;
-    char *new_token;
-	int del_flag = 0;
+	char *new_token;
 
-    while (token[i])
-    {
-        // 리다이렉션과 파이프 기호 처리
-		while(is_space(token[i]))
-			start++;
-        if (token[i] == '<' || token[i] == '>' || token[i] == '|')
-        {
-            // 현재까지의 일반 문자열 출력
-            if (i > start)
-            {
-                new_token = mk_strdup(start, i - 1, token);
-				process_env_var(&new_token);
-                init_list(cmd, new_token, STR);
-                free(new_token);
-            }
-			// 파이프 출력
-			if (token[i] == '|')
-			{
-				new_token = mk_strdup(i, i, token);
-				init_list(cmd, new_token, PIPE);
-				i++;
-			}
-
-            // 리다이렉션과 기호 출력
-            else if ((token[i] == '<' || token[i] == '>') && token[i + 1] == token[i])
-            {
-                new_token = mk_strdup(i, i + 1, token);
-				if (new_token[0] == '<')
-					init_list(cmd, new_token, DLESS);
-				else
-					init_list(cmd, new_token, DGREAT);
-                i += 2;
-            }
-            else
-            {
-                new_token = mk_strdup(i, i, token);
-				if (new_token[0] == '<')
-					init_list(cmd, new_token, LESS);
-				else
-					init_list(cmd, new_token, GREAT);
-                i++;
-            }
-            free(new_token);
-            start = i;
-        }
-        else
-            i++;
-    }
-    // 마지막 일반 문자열이 있으면 리턴
-    if (i > start)
-        new_token = mk_strdup(start, i - 1, token);
-	else // 없으면 빈문자열 리턴
-		new_token = ft_strdup("");
-	return new_token;
-}
-
-int process_dquo(char *line, int start, char **temp, t_comm **cmd)
-{
-    int end = start + 1;
-    char *token;
-	char *isolation;
-
-	isolation = find_delimited(*temp, cmd);
-    while (line[end])
-    {
-        if (is_dquotes(line[end]))
-            token = mk_strdup(start + 1, end - 1, line);
-        end++;
-    }
-	memset(*temp, 0, strlen(line));
-	strcat(*temp, isolation);
-	strcat(*temp, token);
-	printf("end : %d\nline[end] : %c\n", end, line[end]);
-	if (end == ft_strlen(line))
+	if (*cmd == NULL)
+		return 1;
+	t_comm *temp = *cmd;
+	while (temp -> next)
+		temp = temp->next;
+	if (temp->type == CONTINUE)
 	{
-		init_list(cmd, *temp, STR);
-		memset(temp, 0, strlen(line));
+		new_token = ft_strjoin(temp->token, token);
+		free(temp->token);
+		temp->token = new_token;
+		temp->type = type;
+		temp->length += ft_strlen(token);
+		return 0;
 	}
-    return ft_strlen(token) + 2;
+	return 1;
 }
 
-int process_squo(char *line, int start, char **temp, t_comm **cmd)
+void push_back(t_comm **cmd, char *token, int type)
 {
-    int end = start + 1;
-    char *token;
-	char *isolation;
-
-	isolation = find_delimited(*temp, cmd);
-    while (line[end])
-    {
-        if (is_squotes(line[end]))
-		{
-            token = mk_strdup(start + 1, end - 1, line);
-			break;
-		}
-        end++;
-    }
-	memset(*temp, 0, strlen(line));
-	strcat(*temp, isolation);
-	strcat(*temp, token);
-    return ft_strlen(token) + 2;
-}
-
-void init_list(t_comm **cmd, char *token, int type)
-{
-	if (token[0] == '\0')
+	if (!token || token[0] == '\0')
+		return;
+	if (!prev_check(cmd, token, type))
 		return;
     t_comm *push = (t_comm *)malloc(sizeof(t_comm));
-    if (!push) return;  // 메모리 할당 확인
- 
-    push->token = strdup(token);
+    if (!push) 
+		exit(1);
+    push->token = ft_strdup(token);
     push->length = ft_strlen(token);
     push->type = type;
     push->next = NULL;
-
-    // 리스트의 끝을 찾고 새 노드 추가
-    if (*cmd == NULL) {
+    if (*cmd == NULL)
         *cmd = push;
-    } else {
+    else
+	{
         t_comm *temp = *cmd;
         while (temp->next)
             temp = temp->next;
@@ -180,89 +101,25 @@ void init_list(t_comm **cmd, char *token, int type)
     }
 }
 
-/* 문자를 나눠용 */
 void split_line(char *line, t_comm **cmd)
 {
 	int i = 0;
-	int token_index = 0;
-	char *quote_temp;
-	char *temp = (char *)malloc(sizeof(char) * strlen(line) + 1);
-	char *token;
-	t_comm **head = cmd;
-	bzero(temp, strlen(line) + 1);
-
+	int start = 0;
+	char *temp;
+ 
 	while (line[i])
 	{
-		if (is_space(line[i]) || line[i + 1] == '\0')
+		if (line[i + 1] == '\0' || is_space(line[i]))
 		{
-			if (!is_space(line[i]) && line[i + 1] == '\0') 
-                temp[token_index++] = line[i];
-			token = find_delimited(temp, cmd);
-			process_env_var(&token);
-			bzero(temp, strlen(line) + 1);
-			token_index = 0;
-			init_list(cmd, token, STR);
-			free(token);
-			i++;
-			continue;
+			temp = find_delimited(mk_strdup(start, i, line, REMOVE), cmd, 0, 0);
+			process_env_var(&temp, cmd, UNQUOTED, line);
+			push_back(cmd, temp, STR);
+			free(temp);
+			start = i + 1;
 		}
-		else if (is_squotes(line[i]))
-		{
-			i += process_squo(line, i, &temp, cmd);
-			if (!line[i])
-			{
-				init_list(cmd, temp, STR);
-				memset(temp, 0, strlen(line));
-			}
-			token_index = strlen(temp);
-			continue;
-		}
-		else if (is_dquotes(line[i]))
-		{
-			i += process_dquo(line, i, &temp, cmd);
-			// if (!line[i])
-			// {
-			// 	init_list(cmd, temp, STR);
-			// 	memset(temp, 0, strlen(line));
-			// }
-			token_index = strlen(temp);
-			continue;
-		}
-		else
-			temp[token_index] = line[i];
-		token_index++;
+		else if(is_squotes(line[i]) || is_dquotes(line[i]))
+			process_in_quotes(line, &i, &start, cmd);
 		i++;
 	}
-	print(*head);
-}
-
-/* 환경변수 값을 대치합니다.*/
-void process_env_var(char **token)
-{
-    char *var_name;
-	char *var_value;
-	char *new_token;
-    int start = 0;
-
-    char *dollar_pos = strchr(*token, '$');
-    if (dollar_pos == NULL) 
-		return; // '$' 없으면 종료
-
-    var_name = dollar_pos + 1;
-    var_value = getenv(var_name); // 환경변수 값 찾기
-
-    if (var_value)
-	{
-        // 환경변수 값으로 대체
-        *dollar_pos = '\0'; // '$' 앞부분 잘라내기
-        new_token = (char *)malloc(strlen(*token) + strlen(var_value) + strlen(dollar_pos + strlen(var_name) + 1) + 1);
-        if (new_token) 
-		{
-            strcpy(new_token, *token); // '$' 앞부분 복사
-            strcat(new_token, var_value); // 환경변수 값 추가
-            strcat(new_token, dollar_pos + strlen(var_name) + 1); // 환경변수 이름 이후 부분 추가
-            free(*token); // 원래 토큰 메모리 해제
-            *token = new_token; // 새 토큰으로 업데이트
-        }
-    }
+	print(*cmd);
 }
