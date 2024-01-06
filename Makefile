@@ -1,5 +1,20 @@
 NAME = minishell
-SRCS = tokenize.c microshell.c find_synerr.c process_dollar.c process_token.c process_delimited.c
+SRCS =	tokenize.c \
+		microshell.c \
+		find_synerr.c \
+		process_dollar.c \
+		process_token.c \
+		process_delimited.c \
+		./builtin/make_envp.c \
+		./builtin/make_args.c \
+		./builtin/ft_builtin.c \
+		./builtin/ft_cd.c \
+		./builtin/ft_echo.c \
+		./builtin/ft_env.c \
+		./builtin/ft_export.c \
+		./builtin/ft_pwd.c \
+		./builtin/ft_unset.c \
+		./monitoring/print_envp_args.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
 CC = cc

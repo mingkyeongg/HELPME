@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+         #
+#    By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/05 22:41:26 by minkylee          #+#    #+#              #
-#    Updated: 2023/12/27 21:21:30 by minkylee         ###   ########.fr        #
+#    Updated: 2024/01/06 15:58:53 by seokjyan         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS	=	ft_strlen.c		\
 		  ft_putstr_fd.c	\
 		  ft_putendl_fd.c	\
 		  ft_putnbr_fd.c	\
+		  ft_strcmp.c	\
 
 SRCS_BONUS = ft_lstnew_bonus.c		\
 		  ft_lstsize_bonus.c		\
