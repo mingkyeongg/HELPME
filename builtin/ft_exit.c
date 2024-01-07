@@ -1,31 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/05 20:59:22 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/07 20:29:28 by seokjyan         ###   ########.fr       */
+/*   Created: 2024/01/07 20:54:46 by seokjyan          #+#    #+#             */
+/*   Updated: 2024/01/07 21:10:07 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-void    ft_env(t_envp *my_envp)
+void    ft_exit(char **args)
 {
-	while (my_envp != NULL)
-	{
-		if (ft_strcmp(my_envp->key, "") != 0)
-		{
-			ft_putstr_fd(my_envp->key, 1);
-			if (my_envp->state == HAS_EQUAL)
-			{
-				ft_putstr_fd("=", 1);
-				ft_putstr_fd(my_envp->value, 1);
-			}
-			ft_putstr_fd("\n", 1);
-		}
-		my_envp = my_envp->next;
-	}
+    int errnom;
+
+    errnom = ft_atoi(args[1]);
+	ft_putstr_fd("exit\n", 1);
+    exit(errnom);
 }

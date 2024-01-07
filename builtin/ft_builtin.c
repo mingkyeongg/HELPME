@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:49:29 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/06 16:16:33 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/07 21:00:14 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ void	exe_cmd(t_envp *my_envp, char **args, int args_cnt)
 		ft_echo(args);
 	else if (ft_strncmp(args[0], "env", 3) == 0)
 		ft_env(my_envp);
-	// else if (ft_strncmp(args[0], "exit", 4) == 0)
-		// ft_exit(args);
+	else if (ft_strncmp(args[0], "exit", 4) == 0)
+		ft_exit(args);
 	else if (ft_strncmp(args[0], "export", 6) == 0)
 		ft_export(my_envp, args, args_cnt);
 	else if (ft_strncmp(args[0], "pwd", 3) == 0)
