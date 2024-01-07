@@ -6,13 +6,13 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 15:01:09 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/04 17:15:22 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/05 21:22:59 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-int	ft_cd(char **args)
+int	ft_cd(char **args) // - ~ / 등 파싱할지 말지 고민
 {
 	char	*path;
 	char	*cwd;

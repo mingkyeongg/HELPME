@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:31:34 by seokjyan          #+#    #+#             */
-/*   Updated: 2023/12/29 15:23:10 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/05 17:07:08 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,17 @@
 #include <unistd.h>
 
 
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <command>\n", argv[0]);
-        return 1;
-    }
+int main(int argc, char **argv, char **envp)
+{
+	int	i;
+    char *env_var_name = "TERM_PROGRAM";
+    char *env_var_value = getenv(env_var_name);
 
-    char *command = argv[1];
-    char *path = find_cmd_path(command);
-    if (path != NULL) {
-        printf("Path for %s: %s\n", command, path);
-        free(path);
-    } else {
-        printf("Command %s not found\n", command);
-    }
-    return 0;
+	i = 0;
+	while (envp[i])
+	{
+		printf("%s\n", envp[i]);
+		i++;
+	}
+    return (0);
 }

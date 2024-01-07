@@ -135,17 +135,26 @@ void free_list(t_comm *cmd)
     }
 }
 
-
 int main(int argc, char **argv, char **envp)
 {
 	t_comm *cmd;
+	t_envp *my_envp;
+	char	**args;
+	int		args_cnt;
 
+	my_envp = make_envp(envp);
+	// print_my_envp(my_envp); // 출력용
 	while(1)
 	{
 		cmd = malloc(sizeof(t_comm));
 		cmd = NULL;
 		if (!read_input(&cmd))
 			continue;
+		args = make_args(cmd, &args_cnt);
+		// print_args(args); // 출력용
+		// printf("%d\n", is_blt(args));
+		if (is_blt(args))
+			exe_cmd(my_envp, args, args_cnt);
 		free_list(cmd);
 	}
 }
