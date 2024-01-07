@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 17:46:49 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/07 12:06:32 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/07 20:18:04 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,16 +90,16 @@ int only_redirec(char *buf)
     while (buf[i])
     {
         if (buf[i] == '>' || buf[i] == '<')
-            redirection_found = 1; // 리다이렉션 기호를 발견했습니다.
-        else if (buf[i] != ' ') // 공백이 아닌 다른 문자를 발견하면 0을 반환합니다.
+            redirection_found = 1;
+        else if (buf[i] != ' ')
             return 0;
         i++;
     }
-    if (redirection_found) { // 리다이렉션 기호가 하나라도 있으면 오류 메시지를 출력하고 1을 반환합니다.
+    if (redirection_found)
+	{
         printf("minishell: syntax error near unexpected token `newline'\n");
         return 1;
     }
-    // 모든 문자가 공백인 경우 (즉, 리다이렉션 기호가 없는 경우) 0을 반환합니다.
     return 0;
 }
 
@@ -110,13 +110,13 @@ int find_syntax_err(char *buf)
 
     if (!pipe_at_the_end(buf) || only_redirec(buf))
 	{
-        pid_t pid; // 자식 프로세스 생성
+        pid_t pid;
 
 		pid = fork();
         if (pid == 0)
-            exit(128);  // 종료 코드 128로 종료
+            exit(128);
         else if (pid > 0)
-            waitpid(pid, &status, 0);  // 자식 프로세스 종료 대기
+            waitpid(pid, &status, 0);
         else
             perror("fork failed");
         return 0;
