@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:44:46 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/07 19:44:59 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/07 20:30:57 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,9 @@ void	list_export(t_envp *my_envp)
 			if (my_envp->state == HAS_EQUAL)
 			{
 				ft_putstr_fd("=", 1);
+				ft_putstr_fd("\"", 1);
 				ft_putstr_fd(my_envp->value, 1);
+				ft_putstr_fd("\"", 1);
 			}
 			ft_putstr_fd("\n", 1);
 		}

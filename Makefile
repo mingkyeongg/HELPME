@@ -14,6 +14,7 @@ SRCS =	tokenize.c \
 		./builtin/ft_export.c \
 		./builtin/ft_pwd.c \
 		./builtin/ft_unset.c \
+		./builtin/ft_exit.c \
 		./monitoring/print_envp_args.c
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
