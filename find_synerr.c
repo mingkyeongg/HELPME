@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 17:46:49 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/05 18:39:54 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/07 12:06:32 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,15 @@ int pipe_at_the_end(char *buf)
 		i--;
 	if (i > 0 && buf[i] == 'p')
 	{
-		if (i == 0 || buf[i - 1] != 'p')
+		if ((i >= 1 && buf[i] == 'p' && buf[i - 1] != 'p'))
 			printf("minishell: syntax error near unexpected token `|'\n");
 		else if (buf[i - 1] == 'p')
 			printf("minishell: syntax error near unexpected token `||'\n");
+		return 0;
+	}
+	else if (i == 0 && buf[i] == 'p')
+	{
+		printf("minishell: syntax error near unexpected token `|'\n");
 		return 0;
 	}
 	return 1;

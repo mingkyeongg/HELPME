@@ -63,7 +63,6 @@ int is_dquotes(char a);
 int is_squotes(char a);
 int is_del(char *line);
 int is_env(char a);
-int only_space(char *buf);
 
 int 	find_syntax_err(char *buf);
 
@@ -78,8 +77,6 @@ char  *process_dquo(char *line, int *i, int *start, t_comm **cmd);
 void process_natural_str(char **temp, t_comm **cmd, char *line);
 void push_quote_string(t_comm **cmd, char *line, int index, char **temp);
 void process_in_quotes(char *line, int *index, int *start, t_comm **cmd);
-
-
 
 void push_back_delimited(char *token, int *index, t_comm **cmd, int *start);
 void process_prev_str(char *token, int start, int index, t_comm **cmd);
