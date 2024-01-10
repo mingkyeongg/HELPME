@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:34:09 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/10 20:59:18 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/10 21:36:00 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int main(int argc, char **argv, char **envp)
 		cmd = ft_redirect_handling(cmd);
 		args = make_args(cmd, &args_cnt);
 		if (is_blt(args))
-			exe_cmd(my_envp, args, args_cnt);
+			exe_cmd(cmd, my_envp, args, args_cnt);
 		free_list(cmd);
 		dup2(ofd_and_arg->in_fd, 0);
 		dup2(ofd_and_arg->out_fd, 1);

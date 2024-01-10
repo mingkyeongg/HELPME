@@ -76,7 +76,7 @@ char	*ft_strdup(const char *s);
 char	**put_args(char **args, char *token, int cnt);
 char	**make_args(t_comm *com, int *args_cnt);
 
-void	exe_cmd(t_envp *my_envp, char **args, int args_cnt);
+void	exe_cmd(t_comm *cmd, t_envp *my_envp, char **args, int args_cnt);
 int		is_blt(char **args);
 
 t_envp	*make_envp(char **envp);
@@ -90,18 +90,12 @@ void    ft_echo(char **args);
 void	ft_export(t_envp *my_envp, char **args, int args_cnt);
 void    ft_unset(t_envp *my_envp, char **args);
 void    ft_env(t_envp *my_envp);
-void    ft_exit(char **args);
+void    ft_exit(t_comm *cmd, char **args);
 
 void	add_envp(t_envp *my_envp, char** envp, int i_line);
 
 void	print_my_envp(t_envp *my_envp);
 void	print_args(char **args);
-
-
-
-
-
-
 
 /* tokenizing */
 

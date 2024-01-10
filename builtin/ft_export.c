@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:44:46 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/07 20:30:57 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/10 22:00:17 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ void	modi_export(t_envp *my_envp, char **args, int i_line, int pos)
 		cp_envp = cp_envp->next;
 		i++;
 	}
-	add_envp(cp_envp, args, i_line);
+	if (ft_strcmp(cp_envp->value, "") == 0)
+		add_envp(cp_envp, args, i_line);
 }
 
 void	add_export(t_envp *my_envp, char **args, int i_line)
