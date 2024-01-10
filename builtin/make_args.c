@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:05:44 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/06 14:19:36 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:44:42 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,3 +69,6 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 // 	cmd->token;
 // 	return (args);
 // }
+
+
+// 
