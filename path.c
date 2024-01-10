@@ -6,11 +6,11 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 15:23:13 by seokjyan          #+#    #+#             */
-/*   Updated: 2023/12/29 17:01:20 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/07 20:33:14 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./minishell.h"
+#include "./microshell.h"
 
 char	*ft_strtok(char *str, char sepa)
 {
