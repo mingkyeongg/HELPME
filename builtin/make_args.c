@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   make_args.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:05:44 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/06 14:19:36 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:37:01 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 	*args_cnt = 0;
 	args = (char **)malloc(sizeof(char *));
 	args[0] = NULL;
-	while (cmd != NULL || cmd->next != NULL)
+	while (cmd != NULL)
 	{
 		if (cmd->token == NULL && cmd->next != NULL) // redirection 후 NULL처리
 			cmd = cmd->next;

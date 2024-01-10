@@ -1,36 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   process_token.c                                    :+:      :+:    :+:   */
+/*   work_inside_quotes.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 18:03:56 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/04 21:15:52 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:41:55 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
-
-void process_natural_str(char **temp, t_comm **cmd, char *line)
-{
-	find_delimited(*temp, cmd, 0, 0);
-	process_env_var(temp, cmd, UNQUOTED, line);
-}
-
-void index_update(int *i, int *start, int quote_pos)
-{
-	*i = quote_pos;
-	*start = quote_pos + 1;
-}
-
-void free_temp(char **temp, char **quo_str)
-{
-	free(*temp);
-	free(*quo_str);
-	temp = NULL;
-	quo_str = NULL;
-}
+#include "../microshell.h"
 
 char  *process_squo(char *line, int *i, int *start, t_comm **cmd)
 {
@@ -47,7 +27,8 @@ char  *process_squo(char *line, int *i, int *start, t_comm **cmd)
 	}
 	else
 		temp = ft_strdup("");
-	while (line[quote_pos] && !is_squotes(line[quote_pos++]))  // 닫는 따옴표 찾기
+	while (line[quote_pos] && !is_squotes(line[quote_pos]))
+		quote_pos++;  // 닫는 따옴표 찾기
 	if (is_squotes(line[quote_pos]))  // 닫는 단따옴표를 찾은 경우
 	{
 		squo_str = mk_strdup(*i + 1, quote_pos - 1, line, LEAVE);
@@ -62,7 +43,7 @@ char  *process_squo(char *line, int *i, int *start, t_comm **cmd)
 
 char  *process_dquo(char *line, int *i, int *start, t_comm **cmd)
 {
-	int quote_pos;  // 단따옴표 다음 문자부터 시작
+	int quote_pos;
 	char *dquo_str;
 	char *temp;
 	char *token;
@@ -75,7 +56,8 @@ char  *process_dquo(char *line, int *i, int *start, t_comm **cmd)
 	}
 	else
 		temp = ft_strdup("");
-	while (line[quote_pos] && !is_dquotes(line[quote_pos++]))  // 닫는 따옴표 찾기
+	while (line[quote_pos] && !is_dquotes(line[quote_pos]))
+		quote_pos++;  // 닫는 따옴표 찾기
 	if (is_dquotes(line[quote_pos]))  // 닫는 단따옴표를 찾은 경우
 	{
 		dquo_str = mk_strdup(*i + 1, quote_pos - 1, line, LEAVE);

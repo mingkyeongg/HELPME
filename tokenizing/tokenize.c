@@ -6,11 +6,11 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/05 18:40:41 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:47:23 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
+#include "../microshell.h"
 
 /*
 
@@ -29,17 +29,17 @@ void print(t_comm *cmd)
 	}
 }
 
-/* start ~ end 까지의 문자열 반환하는 함수 */
 char *mk_strdup(int start, int end, char *line, int flag)
 {
     char *new_line;
-    int i, j;
+    int i;
+	int j;
 
-    // 메모리 할당 (길이 계산은 동일하게 유지)
+	if (start > end)
+		return ft_strdup("");
     new_line = (char *)malloc(sizeof(char) * (end - start + 2));
     if (new_line == NULL)
         exit(1);
-
     i = 0;  // 새 문자열의 인덱스
     j = start;  // 원본 문자열의 인덱스
     while (j <= end)
@@ -54,51 +54,6 @@ char *mk_strdup(int start, int end, char *line, int flag)
     }
     new_line[i] = '\0';  // 새 문자열 끝에 널 종료 문자 추가
 	return new_line;
-}
-
-int prev_check(t_comm **cmd, char *token, int type)
-{
-	char *new_token;
-
-	if (*cmd == NULL)
-		return 1;
-	t_comm *temp = *cmd;
-	while (temp -> next)
-		temp = temp->next;
-	if (temp->type == CONTINUE)
-	{
-		new_token = ft_strjoin(temp->token, token);
-		free(temp->token);
-		temp->token = new_token;
-		temp->type = type;
-		temp->length += ft_strlen(token);
-		return 0;
-	}
-	return 1;
-}
-
-void push_back(t_comm **cmd, char *token, int type)
-{
-	if (!token || token[0] == '\0')
-		return;
-	if (!prev_check(cmd, token, type))
-		return;
-    t_comm *push = (t_comm *)malloc(sizeof(t_comm));
-    if (!push) 
-		exit(1);
-    push->token = ft_strdup(token);
-    push->length = ft_strlen(token);
-    push->type = type;
-    push->next = NULL;
-    if (*cmd == NULL)
-        *cmd = push;
-    else
-	{
-        t_comm *temp = *cmd;
-        while (temp->next)
-            temp = temp->next;
-        temp->next = push;
-    }
 }
 
 void split_line(char *line, t_comm **cmd)

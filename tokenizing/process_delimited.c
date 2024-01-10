@@ -6,11 +6,11 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 16:32:15 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/04 21:16:50 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/10 14:10:05 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "microshell.h"
+#include "../microshell.h"
 
 void process_prev_str(char *token, int start, int index, t_comm **cmd)
 {

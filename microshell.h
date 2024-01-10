@@ -68,20 +68,6 @@ typedef struct s_data
 
 /* tokenize */
 
-void	split_line(char *line, t_comm **cmd);
-char	*mk_strdup(int start, int end, char *line, int flag);
-int		process_env_var(char **token, t_comm **cmd, int flag, char *line);
-void	push_back(t_comm **cmd, char *token, int type);
-
-int		is_space(char a);
-int		is_dquotes(char a);
-int		is_squotes(char a);
-int		is_del(char *line);
-int		is_env(char a);
-int		only_space(char *buf);
-
-int 	find_syntax_err(char *buf);
-
 int		ft_strcmp(char *s1, char *s2);
 void	ft_putstr_fd(char *s, int fd);
 size_t	ft_strlen(const char *s);
@@ -104,20 +90,81 @@ void    ft_env(t_envp *my_envp);
 
 void	add_envp(t_envp *my_envp, char** envp, int i_line);
 
-char	*process_squo(char *line, int *i, int *start, t_comm **cmd);
-char	*process_dquo(char *line, int *i, int *start, t_comm **cmd);
-void	process_natural_str(char **temp, t_comm **cmd, char *line);
-void	push_quote_string(t_comm **cmd, char *line, int index, char **temp);
-void	process_in_quotes(char *line, int *index, int *start, t_comm **cmd);
-
-void	push_back_delimited(char *token, int *index, t_comm **cmd, int *start);
-void	process_prev_str(char *token, int start, int index, t_comm **cmd);
-char	*find_delimited(char *token, t_comm **cmd, int i, int start);
-char	*find_last_dollar(char* str);
-void	remove_undefined_env(char **token);
-int		return_last_dollar_pos(char *str);
-
 void	print_my_envp(t_envp *my_envp);
 void	print_args(char **args);
+
+
+
+
+
+
+
+/* tokenizing */
+
+/* tokenize.c */
+
+char *mk_strdup(int start, int end, char *line, int flag);
+void split_line(char *line, t_comm **cmd);
+
+/* put_on_list.c */
+int prev_check(t_comm **cmd, char *token, int type);
+void push_back(t_comm **cmd, char *token, int type);
+
+/* find syn_err.c */
+int find_syntax_err(char *buf);
+int only_redirec(char *buf);
+int pipe_at_the_end(char *buf);
+
+/* pre_processing.c */
+int tokenizing(char *line, t_comm **cmd, int i);
+int read_input(t_comm **cmd);
+void free_list(t_comm *cmd);
+
+/* token_utils.c */
+int is_del(char *line);
+int is_space(char a);
+int is_dquotes(char a);
+int is_squotes(char a);
+int is_redirect(char a);
+
+/* token_utils_two.c */
+int is_pipe(char a);
+int is_env(char a);
+
+/* process_delimited.c */
+char *find_delimited(char *token, t_comm **cmd, int i, int start);
+void push_back_delimited(char *token, int *index, t_comm **cmd, int *start);
+void distinguishing_redirec(char *new_token, int flag, t_comm **cmd);
+void process_prev_str(char *token, int start, int index, t_comm **cmd);
+
+/* search_dollar_env.c */
+int check_dless(t_comm *cmd);
+char *search_env_name(char *str);
+int return_last_dollar_pos(char *str);
+char* find_last_dollar(char* str);
+void find_last_pos(char **str);
+
+/* process_remove.c */
+void split_env(char **token, t_comm **cmd);
+void remove_dollar(char *str);
+void remove_undefined_env(char **token);
+void remove_quotes(char **str, int start) ;
+
+/* process_dollar.c */
+void connecting_string(char **token, char *var_value, char *var_name, char *dollar_pos);
+void processing_after_dless(char **token);
+void put_in_env(char **token, char **dollar_pos);
+int process_env_var(char **token, t_comm **cmd, int flag, char *line);
+
+/* work_inside_quotes.c */
+void process_in_quotes(char *line, int *index, int *start, t_comm **cmd);
+void push_quote_string(t_comm **cmd, char *line, int index, char **temp);
+char  *process_dquo(char *line, int *i, int *start, t_comm **cmd);
+char  *process_squo(char *line, int *i, int *start, t_comm **cmd);
+
+/* utils_quotes.c */
+void process_natural_str(char **temp, t_comm **cmd, char *line);
+void index_update(int *i, int *start, int quote_pos);
+void free_temp(char **temp, char **quo_str);
 
 #endif

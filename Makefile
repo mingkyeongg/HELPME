@@ -1,10 +1,17 @@
 NAME = minishell
-SRCS =	tokenize.c \
+SRCS =	./tokenizing/find_synerr.c \
 		microshell.c \
-		find_synerr.c \
-		process_dollar.c \
-		process_token.c \
-		process_delimited.c \
+		./tokenizing/pre_processing.c \
+		./tokenizing/process_delimited.c \
+		./tokenizing/process_dollar.c \
+		./tokenizing/process_remove.c \
+		./tokenizing/put_on_list.c \
+		./tokenizing/search_dollar_env.c \
+		./tokenizing/token_utils_two.c \
+		./tokenizing/token_utils.c \
+		./tokenizing/tokenize.c \
+		./tokenizing/utils_quotes.c \
+		./tokenizing/work_inside_quotes.c \
 		./builtin/make_envp.c \
 		./builtin/make_args.c \
 		./builtin/ft_builtin.c \
