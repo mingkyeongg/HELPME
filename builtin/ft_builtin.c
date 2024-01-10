@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:49:29 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/06 16:16:33 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/10 20:58:55 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	exe_cmd(t_envp *my_envp, char **args, int args_cnt)
 
 int	is_blt(char **args)
 {
+	if (args[0] == NULL)
+		return (0);
 	if (ft_strncmp(args[0], "cd", 2) == 0)
 		return (1);
 	if (ft_strncmp(args[0], "echo", 4) == 0)
