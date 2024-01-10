@@ -32,24 +32,28 @@
 
 int main(int argc, char **argv, char **envp)
 {
-	t_comm *cmd;
-	t_envp *my_envp;
+	t_comm	*cmd;
+	t_envp	*my_envp;
+	t_data	*ofd_and_arg;
 	char	**args;
 	int		args_cnt;
 
 	my_envp = make_envp(envp);
-	// print_my_envp(my_envp); // 출력용
 	while(1)
 	{
 		cmd = malloc(sizeof(t_comm));
+		ofd_and_arg = malloc(sizeof(t_data));
 		cmd = NULL;
 		if (!read_input(&cmd))
 			continue;
+		ofd_and_arg->in_fd = dup(0);
+		ofd_and_arg->out_fd = dup(1);
+		cmd = ft_redirect_handling(cmd);
 		args = make_args(cmd, &args_cnt);
-		// print_args(args); // 출력용
-		// printf("%d\n", is_blt(args));
 		if (is_blt(args))
 			exe_cmd(my_envp, args, args_cnt);
 		free_list(cmd);
+		dup2(ofd_and_arg->in_fd, 0);
+		dup2(ofd_and_arg->out_fd, 1);
 	}
 }

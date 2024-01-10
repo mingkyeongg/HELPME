@@ -6,8 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:05:44 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 20:37:01 by minkylee         ###   ########.fr       */
-/*   Updated: 2024/01/10 20:44:42 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/10 21:18:53 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +42,11 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 	args[0] = NULL;
 	while (cmd != NULL)
 	{
-		if (cmd->token == NULL && cmd->next != NULL) // redirection 후 NULL처리
+		if (cmd->token == NULL) // redirection 후 NULL처리
+		{
 			cmd = cmd->next;
+			continue ;
+		}
 		(*args_cnt)++;
 		args = put_args(args, cmd->token, *args_cnt);
 		if (cmd->next == NULL)
@@ -53,23 +55,3 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 	}
 	return (args);
 }
-
-// char	**make_args(t_comm *cmd, int *args_cnt)
-// {
-// 	char	**args;
-
-// 	*args_cnt = 0;
-// 	while (cmd->token != NULL)
-// 	{
-// 		if (is_redirection(cmd->token) == 0 && \
-// 			cmd->next != NULL && cmd->next->next != NULL)
-// 			cmd = cmd->next->next;
-// 		(*args_cnt)++;
-// 		args = put_args(args, cmd->token, *args_cnt);
-// 	}
-// 	cmd->token;
-// 	return (args);
-// }
-
-
-// 
