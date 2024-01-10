@@ -15,7 +15,10 @@ SRCS =	tokenize.c \
 		./builtin/ft_pwd.c \
 		./builtin/ft_unset.c \
 		./builtin/ft_exit.c \
-		./monitoring/print_envp_args.c
+		./monitoring/print_envp_args.c \
+		./redirection/exe_redirection.c \
+		./redirection/ft_redirection.c
+
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
 CC = cc

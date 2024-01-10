@@ -95,9 +95,12 @@ int		is_blt(char **args);
 
 t_envp	*make_envp(char **envp);
 
+t_comm	*ft_redirect_handling(t_comm *cmd);
+void	exe_redirection(char *arg, int type);
+
 void    ft_pwd(char **args);
 int		ft_cd(char **args);
-void    ft_echo(char **args);// -nnnn수정해야함
+void    ft_echo(char **args);
 void	ft_export(t_envp *my_envp, char **args, int args_cnt);
 void    ft_unset(t_envp *my_envp, char **args);
 void    ft_env(t_envp *my_envp);
