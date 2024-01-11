@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:36:23 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/10 20:40:45 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/11 13:03:05 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int prev_check(t_comm **cmd, char *token, int type)
 
 void push_back(t_comm **cmd, char *token, int type)
 {
+	if (token[0] == '\0' && type != QUOTED)
+		return;
 	if(!token)
 		return;
 	if (!prev_check(cmd, token, type))
@@ -44,7 +46,10 @@ void push_back(t_comm **cmd, char *token, int type)
 		exit(1);
     push->token = ft_strdup(token);
     push->length = ft_strlen(token);
-    push->type = type;
+	if (type == QUOTED)
+		push->type = STR;
+	else
+    	push->type = type;
     push->next = NULL;
     if (*cmd == NULL)
         *cmd = push;

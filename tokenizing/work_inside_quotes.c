@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 18:03:56 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/10 20:41:55 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/11 13:01:00 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char  *process_dquo(char *line, int *i, int *start, t_comm **cmd)
 void push_quote_string(t_comm **cmd, char *line, int index, char **temp)
 {
 	if ((!line[index + 1]  || is_space(line[index + 1])) && *temp)
-		push_back(cmd, *temp, STR);
+		push_back(cmd, *temp, QUOTED);
 	else
 		push_back(cmd, *temp, CONTINUE);
 	free(*temp);  // 메모리 해제
