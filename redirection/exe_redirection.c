@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/10 15:56:32 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 20:10:24 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/11 15:51:30 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_redirection_out(char *arg, int type)
 			perror("open");
 			return (EXIT_FAILURE);
 		}
-		printf("fd = %d\n", fd);
 	}
 	else
 	{
@@ -34,7 +33,6 @@ int	ft_redirection_out(char *arg, int type)
 			perror("open");
 			return (EXIT_FAILURE);
 		}
-		printf("fd = %d\n", fd);
 	}
 	dup2(fd, 1);
 	close(fd);
