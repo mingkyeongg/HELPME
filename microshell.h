@@ -37,7 +37,8 @@ typedef struct s_data
 {
 	int 	in_fd; 
 	int 	out_fd;
-	char	**arv;
+	char	**args;
+	int		arg_cnt;
 	struct s_data	*next;
 }	t_data;
 
@@ -84,6 +85,8 @@ t_envp	*make_envp(char **envp);
 t_comm	*ft_redirect_handling(t_comm *cmd);
 void	exe_redirection(char *arg, int type);
 
+void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
+
 void    ft_pwd(char **args);
 int		ft_cd(char **args);
 void    ft_echo(char **args);
@@ -96,6 +99,8 @@ void	add_envp(t_envp *my_envp, char** envp, int i_line);
 
 void	print_my_envp(t_envp *my_envp);
 void	print_args(char **args);
+
+char	*find_cmd_path(char *command);
 
 /* tokenizing */
 

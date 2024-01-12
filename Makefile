@@ -24,7 +24,8 @@ SRCS =	./tokenizing/find_synerr.c \
 		./builtin/ft_exit.c \
 		./monitoring/print_envp_args.c \
 		./redirection/exe_redirection.c \
-		./redirection/ft_redirection.c
+		./redirection/ft_redirection.c \
+		run_command.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
@@ -36,6 +37,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
+	cp $(NAME) ./testzone/$(NAME)
 
 $(LIBFT):
 	$(MAKE) -C ./Libft

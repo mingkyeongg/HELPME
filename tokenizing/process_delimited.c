@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 16:32:15 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/10 14:10:05 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/11 12:55:10 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ void process_prev_str(char *token, int start, int index, t_comm **cmd)
 
 	new_token = mk_strdup(start, index - 1, token, REMOVE);
 	process_env_var(&new_token, cmd, UNQUOTED, token);
-    push_back(cmd, new_token, STR);
+	if (new_token[0])
+    	push_back(cmd, new_token, STR);
     free(new_token);
 }
 

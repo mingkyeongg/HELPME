@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 18:49:29 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 21:41:28 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/11 20:18:39 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	exe_cmd(t_comm *cmd, t_envp *my_envp, char **args, int args_cnt)
 		ft_pwd(args);
 	else if (ft_strncmp(args[0], "unset", 5) == 0)
 		ft_unset(my_envp, args);
-	// else
-	// 	ft_execve(args);
+	else
+		ft_execve(args);
 }
 
 int	is_blt(char **args)
