@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:43:26 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/11 20:54:58 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:53:26 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,16 @@ void	connecting_string(char **token, char *var_value, \
 
 void	processing_after_dless(char **token)
 {
-    int index;
-    int start;
+	int	index;
+	int	start;
 
 	index = return_last_dollar_pos(*token);
 	start = index;
-    if ((*token)[index + 1] == '\0')
+	if ((*token)[index + 1] == '\0')
 	{
 		free(*token);
 		*token = ft_strdup("");
-    }
+	}
 }
 
 void	put_in_env(char **token, char **dollar_pos)
@@ -82,7 +82,7 @@ void	make_prev_str(char **token)
 int	process_env_var(char **token, t_comm **cmd, int flag, char *line)
 {
 	char	*dollar_pos;
-    int		start;
+	int		start;
 
 	if (!ft_strchr(*token, '$'))
 		return (0);
