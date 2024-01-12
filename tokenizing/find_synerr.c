@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/28 17:46:49 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/11 20:42:58 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:51:08 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,6 @@ int	only_redirec(char *buf)
 
 int	find_syntax_err(char *buf)
 {
-	int	status;
-
 	if (pipe_at_the_end(buf) && !only_redirec(buf))
 		return (1);
 	return (0);
