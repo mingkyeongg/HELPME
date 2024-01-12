@@ -6,17 +6,17 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:48:23 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/07 21:01:06 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:08:08 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-void split_env(char **token, t_comm **cmd)
+void	split_env(char **token, t_comm **cmd)
 {
-	int i;
-	int start;
-	char *new_token;
+	int		i;
+	int		start;
+	char	*new_token;
 
 	i = 0;
 	start = 0;
@@ -38,12 +38,12 @@ void split_env(char **token, t_comm **cmd)
 	}
 }
 
-void remove_dollar(char *str)
+void	remove_dollar(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
 		if (is_env(str[i]))
 			str[i] = '\0';
@@ -51,15 +51,21 @@ void remove_dollar(char *str)
 	}
 }
 
-void remove_undefined_env(char **token)
+void	remove_undefined_env(char **token)
 {
-	char *dollar_pos = find_last_dollar(*token);
-	int start = 0;
-	int index = return_last_dollar_pos(*token);
-	char *prev = mk_strdup(start, index -1, *token, LEAVE);
-	char *next = NULL;
+	char	*dollar_pos;
+	int		start;
+	int		index;
+	char	*prev;
+	char	*next;
 
-	while ((*token)[index] && !is_squotes((*token)[index]) && !is_dquotes((*token)[index]) &&!is_space((*token)[index]))
+	dollar_pos = find_last_dollar(*token);
+	start = 0;
+	index = return_last_dollar_pos(*token);
+	next = NULL;
+	prev = mk_strdup(start, index -1, *token, LEAVE);
+	while ((*token)[index] && !is_squotes((*token)[index]) && \
+		!is_dquotes((*token)[index]) &&!is_space((*token)[index]))
 		index++;
 	next = mk_strdup(index, ft_strlen(*token), *token, LEAVE);
 	free(*token);
@@ -68,22 +74,25 @@ void remove_undefined_env(char **token)
 	free(next);
 }
 
-void remove_quotes(char **str, int start) 
+void	remove_quotes(char **str, int start)
 {
-    char *ret = (char *)malloc(sizeof(char) * (ft_strlen(*str) + 1));
-    int i = 0;
-    int j = start;
+	char	*ret;
+	int		i;
+	int		j;
 
-    while ((*str)[j])
+	ret = (char *)malloc(sizeof(char) * (ft_strlen(*str) + 1));
+	i = 0;
+	j = start;
+	while ((*str)[j])
 	{
-        if (!is_dquotes((*str)[j]))
+		if (!is_dquotes((*str)[j]))
 		{
-            ret[i++] = (*str)[j];
+			ret[i++] = (*str)[j];
 			printf("char : %c\n", (*str)[j]);
 		}
-        j++;
-    }
-    ret[i] = '\0';
-    free(*str);
-    *str = ret;
+		j++;
+	}
+	ret[i] = '\0';
+	free(*str);
+	*str = ret;
 }
