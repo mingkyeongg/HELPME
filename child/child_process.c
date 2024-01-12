@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:22:38 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 21:23:46 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:47:02 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 {
     pid_t   pid;
+    t_comm  *old_cmd;
     int     fd[2];
 
+    old_cmd = cmd;
     pipe(fd);
-    t_comm *old_cmd = cmd;
     cmd = move_cmd(cmd);
     ofd_arg->pid[ofd_arg->i_pid] = fork();
     if (ofd_arg->pid[ofd_arg->i_pid] == -1)
@@ -36,9 +37,6 @@ void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
         close(fd[1]);
         ft_redirect_handling(old_cmd);
         ofd_arg->args = make_args_fork(old_cmd, &ofd_arg->arg_cnt);
-        // cmd = move_cmd(cmd);
-        // printf("next token = %s\n",old_cmd->token);
-        // printf("next token = %p\n", old_cmd);
         exe_cmd(old_cmd, my_envp, ofd_arg->args, ofd_arg->arg_cnt);
         exit(0);
     }
