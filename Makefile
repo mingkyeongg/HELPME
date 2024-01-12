@@ -22,10 +22,14 @@ SRCS =	./tokenizing/find_synerr.c \
 		./builtin/ft_pwd.c \
 		./builtin/ft_unset.c \
 		./builtin/ft_exit.c \
+		./builtin/ft_execve.c \
 		./monitoring/print_envp_args.c \
 		./redirection/exe_redirection.c \
 		./redirection/ft_redirection.c \
-		run_command.c
+		./child/child_process.c \
+		./child/make_args_fork.c \
+		run_command.c \
+		path.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a

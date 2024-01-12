@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:41:33 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/11 21:31:56 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:31:26 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,16 @@ int	check_str(char *args)
 
 static int	is_builtin(t_comm *cmd)
 {
-	while (cmd != NULL)
+	t_comm	*cp_cmd;
+
+	cp_cmd = cmd;
+	while (cp_cmd != NULL)
 	{
-		if (cmd->type == STR) // 첫번째 문자열을 마주치고
+		if (cp_cmd->type == STR) // here first STR
 		{
-			if (check_str(cmd->token) == 1) // 그 문자열이 builtin 이라면
+			if (check_str(cp_cmd->token) == 1) // STR is builtin
 				return (1);
-			break ; // 브레이크는 확정
+			break ; // most break ;
 		}
 	}
 	return (0);
@@ -49,33 +52,18 @@ static int	is_builtin(t_comm *cmd)
 
 static int	is_pip(t_comm *cmd)
 {
-	while (cmd != NULL)
+	t_comm *cp_cmd;
+	int		cmd_cnt;
+
+	cp_cmd = cmd;
+	cmd_cnt = 1;
+	while (cp_cmd != NULL)
 	{
-		if (cmd->type == PIPE)
-			return (1);
-		cmd = cmd->next;
+		if (cp_cmd->type == PIPE)
+			cmd_cnt++;
+		cp_cmd = cp_cmd->next;
 	}
-	return (0);
-}
-
-int	check_fork(t_comm *cmd, char **args)
-{
-	int	has_pipe;
-	int	has_builtin;
-	t_comm	*pip_cmd;
-	t_comm	*blt_cmd;
-
-	pip_cmd = cmd;
-	blt_cmd = cmd;
-	has_pipe = 0;
-	has_builtin = 0;
-	if (is_pip(pip_cmd) == 1)
-		has_pipe = 1;
-	if (is_builtin(blt_cmd) == 1)
-		has_builtin = 1;
-	if (has_pipe != 1 && has_builtin == 1)
-		return (0);
-	return (1);
+	return (cmd_cnt);
 }
 
 void	command_not_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
@@ -91,70 +79,79 @@ void	command_not_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 	dup2(ofd_arg->out_fd, 1);
 }
 
-int	is_pipe_arg(t_comm *cmd)
-{
-	t_comm	*cp_cmd;
-	int 	pos;
-
-	pos = 0;
-	while (cp_cmd != NULL)
-	{
-		if (cmd->type == PIPE)
-			return (pos);
-		pos++;
-		cp_cmd = cp_cmd->next;
-	}
-	return (0);
-}
-
-void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
-{
-	t_comm	*head_cmd;
-	pid_t	pid;
-	int		fd[2];
-	int		pos_pipe;
-
-	head_cmd = cmd;
-	pid	= fork();
-	if (pid == -1)
-	{
-		perror("fork");
-		return ;
-	}
-	pipe(fd);
-	while (pos_pipe = is_pipe_arg(cmd) != 0)
-	{
-		cmd = ft_redirect_handling_fork(cmd);
-		ofd_arg->args = make_args_fork(cmd, &ofd_arg->arg_cnt);
-	}
-	// if (pos_pipe = is_pipe_arg(ofd_arg->args) != 0)
-	// {
-	// 	pipe(fd);
-	// 	pid = fork;
-	// 	if (pid == -1)
-	// 		perror("fork");
-	// 	if (pid == 0)
-	// 	{
-	// 		close(fd[0]);
-	// 		dup2(fd[1], 1);
-	// 		exe_cmd(cmd, my_envp, ofd_arg->args, ofd_arg->arg_cnt);
-	// 	}
-	// 	else
-	// 	{
-	// 		close(fd[1]);
-	// 		dup2(fd[0], 0);
-	// 		exe_cmd(cmd, my_envp, ofd_arg->args[pos_pipe + 1], ofd_arg->arg_cnt);
-	// 	}
-	// }
-}
-
 void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 {
 	int	need_fork;
+	int	builtin;
+	int	cmd_count;
 
-	need_fork = check_fork(cmd, ofd_arg->args);
-	if (need_fork == 0)
+	builtin = is_builtin(cmd); // first cmd builtin ret 1
+	cmd_count = is_pip(cmd); // return cmd, default 1 meet pipe ++
+
+	if (builtin == 1 && cmd_count == 1)
 		command_not_fork(cmd, my_envp, ofd_arg);
-	// if (need_fork == 1)
-	// 	command_use_fork(cmd, my_envp, ofd_arg);
+	else
+	{
+		ofd_arg->pid = (int *)malloc(sizeof(int) * cmd_count);
+		ofd_arg->i_pid = 0;
+		command_use_fork(cmd, my_envp, ofd_arg);
+	}
+	
 }
+
+// int	is_pipe_arg(t_comm *cmd)
+// {
+// 	t_comm	*cp_cmd;
+// 	int 	pos;
+
+// 	pos = 0;
+// 	while (cp_cmd != NULL)
+// 	{
+// 		if (cmd->type == PIPE)
+// 			return (pos);
+// 		pos++;
+// 		cp_cmd = cp_cmd->next;
+// 	}
+// 	return (0);
+// }
+
+// void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
+// {
+// 	t_comm	*head_cmd;
+// 	pid_t	pid;
+// 	int		fd[2];
+// 	int		pos_pipe;
+
+// 	head_cmd = cmd;
+// 	pid	= fork();
+// 	if (pid == -1)
+// 	{
+// 		perror("fork");
+// 		return ;
+// 	}
+// 	pipe(fd);
+// 	while (pos_pipe = is_pipe_arg(cmd) != 0)
+// 	{
+// 		cmd = ft_redirect_handling_fork(cmd);
+// 		ofd_arg->args = make_args_fork(cmd, &ofd_arg->arg_cnt);
+// 	}
+// 	// if (pos_pipe = is_pipe_arg(ofd_arg->args) != 0)
+// 	// {
+// 	// 	pipe(fd);
+// 	// 	pid = fork;
+// 	// 	if (pid == -1)
+// 	// 		perror("fork");
+// 	// 	if (pid == 0)
+// 	// 	{
+// 	// 		close(fd[0]);
+// 	// 		dup2(fd[1], 1);
+// 	// 		exe_cmd(cmd, my_envp, ofd_arg->args, ofd_arg->arg_cnt);
+// 	// 	}
+// 	// 	else
+// 	// 	{
+// 	// 		close(fd[1]);
+// 	// 		dup2(fd[0], 0);
+// 	// 		exe_cmd(cmd, my_envp, ofd_arg->args[pos_pipe + 1], ofd_arg->arg_cnt);
+// 	// 	}
+// 	// }
+// }
