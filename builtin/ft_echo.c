@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 13:36:07 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 15:19:59 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:28:21 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void    ft_echo(char **args)// -nnnn수정해야함
 	int	i_line;
 	int	i_word;
 	int	flag;
-	
+
 	i_line = 1;
 	flag = 0;
 	while (args[i_line] != NULL && ft_strncmp(args[i_line], "-", 1) == 0)

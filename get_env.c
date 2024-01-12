@@ -1,24 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_pwd.c                                           :+:      :+:    :+:   */
+/*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/04 16:32:06 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 15:38:09 by minkylee         ###   ########.fr       */
+/*   Created: 2024/01/12 15:46:49 by minkylee          #+#    #+#             */
+/*   Updated: 2024/01/12 17:12:12 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../microshell.h"
+#include "microshell.h"
 
-void	ft_pwd(char **args)
+char	*ft_get_env(t_envp *envp, char *var_name)
 {
-	char	*path;
+	char	*ret;
+	t_envp	*temp;
 
-	path = getcwd(NULL, 0);
-	ft_putstr_fd(path, 1);
-	ft_putstr_fd("\n", 1);
-	free(path);
+	ret = NULL;
+	temp = envp;
+	if (var_name[0] == '\0')
+		return (ft_strdup(""));
+	while (temp != NULL)
+	{
+		if (ft_strcmp(var_name, temp->key) == 0)
+		{
+			ret = ft_strdup(temp->value);
+			return (ret);
+		}
+		temp = temp->next;
+	}
+	return (ft_strdup(""));
 }
-//대체 이 이상 무엇이 필요하지...

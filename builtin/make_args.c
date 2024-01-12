@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 16:05:44 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 21:18:53 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:39:15 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 		(*args_cnt)++;
 		args = put_args(args, cmd->token, *args_cnt);
 		if (cmd->next == NULL)
-			break;
+			break ;
 		cmd = cmd->next;
 	}
 	return (args);

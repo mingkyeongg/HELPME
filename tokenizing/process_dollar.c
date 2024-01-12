@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/02 17:43:26 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 14:53:26 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 18:13:17 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	connecting_string(char **token, char *var_value, \
 	temp = ft_strjoin(*token, var_value);
 	if (return_last_dollar_pos(dollar_pos + 1) != -1)
 		next_str = mk_strdup(ft_strlen(var_name) + 1, \
-			return_last_dollar_pos(dollar_pos + 1), dollar_pos, REMOVE);
+			return_last_dollar_pos(dollar_pos + 1), dollar_pos, LEAVE);
 	else
 		next_str = ft_strdup("");
 	new_token = ft_strjoin(temp, next_str);
@@ -46,24 +46,28 @@ void	processing_after_dless(char **token)
 	}
 }
 
-void	put_in_env(char **token, char **dollar_pos)
+void	put_in_env(char **token, char **dollar_pos, t_envp *envp, t_comm **cmd)
 {
 	char	*var_name;
 	char	*var_value;
 	char	*new_dollar_pos;
 
 	new_dollar_pos = NULL;
+	var_value = NULL;
 	var_name = search_env_name(*dollar_pos + 1);
 	if (var_name[0] == '?')
 	{
 		connecting_string(token, "$?", var_name, *dollar_pos);
 		return ;
 	}
-	var_value = getenv(var_name);
-	if (var_value)
+	var_value = ft_get_env(envp, var_name);
+	if (!check_dless(*cmd))
 	{
-		connecting_string(token, var_value, var_name, *dollar_pos);
+		connecting_string(token, var_name, var_name, *dollar_pos);
+		return ;
 	}
+	if (var_value)
+		connecting_string(token, var_value, var_name, *dollar_pos);
 	else
 		remove_undefined_env(token);
 }
@@ -79,7 +83,7 @@ void	make_prev_str(char **token)
 	*token = temp;
 }
 
-int	process_env_var(char **token, t_comm **cmd, int flag, char *line)
+int	process_env_var(char **token, t_comm **cmd, char *line, t_envp *envp)
 {
 	char	*dollar_pos;
 	int		start;
@@ -91,18 +95,8 @@ int	process_env_var(char **token, t_comm **cmd, int flag, char *line)
 	while (ft_strchr(dollar_pos, '$'))
 	{
 		find_last_pos(&dollar_pos);
-		if (!check_dless(*cmd))
-		{
-			processing_after_dless(token);
-			return (0);
-		}
-		put_in_env(token, &dollar_pos);
+		put_in_env(token, &dollar_pos, envp, cmd);
 		dollar_pos++;
-	}
-	if (flag == UNQUOTED)
-	{
-		split_env(token, cmd);
-		return (1);
 	}
 	return (0);
 }

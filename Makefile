@@ -24,7 +24,8 @@ SRCS =	./tokenizing/find_synerr.c \
 		./builtin/ft_exit.c \
 		./monitoring/print_envp_args.c \
 		./redirection/exe_redirection.c \
-		./redirection/ft_redirection.c
+		./redirection/ft_redirection.c \
+		get_env.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a

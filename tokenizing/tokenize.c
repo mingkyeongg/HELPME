@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/15 20:33:37 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 15:12:24 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:50:41 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,38 +49,41 @@ char	*mk_strdup(int start, int end, char *line, int flag)
 	return (new_line);
 }
 
-void	creat_string(char *line, t_comm **cmd, int start, int end)
+void	creat_string(char *line, t_comm **cmd, t_range *range, t_envp *envp)
 {
 	char	*temp;
 
-	temp = find_delimited(mk_strdup(start, end, line, REMOVE), cmd, 0, 0);
-	process_env_var(&temp, cmd, UNQUOTED, line);
+	temp = find_delimited(mk_strdup(range->start, range->i, \
+		line, REMOVE), cmd, 0, 0);
+	process_env_var(&temp, cmd, line, envp);
+	split_env(&temp, cmd);
 	push_back(cmd, temp, STR);
 	free(temp);
 }
 
-void	split_line(char *line, t_comm **cmd)
+void	split_line(char *line, t_comm **cmd, t_envp *envp)
 {
-	int		i;
-	int		start;
+	t_range	*range;
 
-	i = 0;
-	start = 0;
-	while (line[i])
+	range = (t_range *)malloc(sizeof(t_range));
+	range->i = 0;
+	range->start = 0;
+	while (line[range->i])
 	{
-		if (line[i + 1] == '\0' || is_space(line[i]))
+		if (line[range->i + 1] == '\0' || is_space(line[range->i]))
 		{
-			creat_string(line, cmd, start, i);
-			start = i + 1;
+			creat_string(line, cmd, range, envp);
+			range->start = range->i + 1;
 		}
-		else if (is_squotes(line[i]) || is_dquotes(line[i]))
-			process_in_quotes(line, &i, &start, cmd);
-		else if (line[i] == '#')
+		else if (is_squotes(line[range->i]) || is_dquotes(line[range->i]))
+			process_in_quotes(line, range, cmd, envp);
+		else if (line[range->i] == '#')
 		{
-			creat_string(line, cmd, start, i - 1);
+			range->i--;
+			creat_string(line, cmd, range, envp);
 			break ;
 		}
-		i++;
+		range->i++;
 	}
 	print(*cmd);
 }
