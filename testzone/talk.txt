@@ -128,3 +128,8 @@ void total_run()
     }
 }
 
+echo hello > special | << eof < infile cat
+기다려주는건 입력만, 그전까지 명령수행 X 맨앞에서
+# 히어독 << 반복으로 체크 
+<< eof  << 토큰에서 저장! 왜? 리다이렉션에서 같이 처리
+fd redirection까지 들고 있다가! 존재하면 넘겨

@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:41:33 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 17:31:26 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:22:55 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 	int	need_fork;
 	int	builtin;
 	int	cmd_count;
+	int	status;
+	int	i;
 
 	builtin = is_builtin(cmd); // first cmd builtin ret 1
 	cmd_count = is_pip(cmd); // return cmd, default 1 meet pipe ++
@@ -92,11 +94,20 @@ void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 		command_not_fork(cmd, my_envp, ofd_arg);
 	else
 	{
+		ofd_arg->in_fd = dup(0);
+		ofd_arg->out_fd = dup(1);
 		ofd_arg->pid = (int *)malloc(sizeof(int) * cmd_count);
 		ofd_arg->i_pid = 0;
 		command_use_fork(cmd, my_envp, ofd_arg);
+		dup2(ofd_arg->in_fd, 0);
+		dup2(ofd_arg->out_fd, 1);
+		i = 0;
+		while (i < cmd_count)
+		{
+			waitpid(ofd_arg->pid[i], &status, 0);
+			i++;
+		}
 	}
-	
 }
 
 // int	is_pipe_arg(t_comm *cmd)

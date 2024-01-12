@@ -28,14 +28,15 @@ SRCS =	./tokenizing/find_synerr.c \
 		./redirection/ft_redirection.c \
 		./child/child_process.c \
 		./child/make_args_fork.c \
+		./child/move_cmd.c \
 		run_command.c \
-		path.c
+		path.c \
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
 CC = cc
 CFLAGS = -Wall -Werror -Wextra
-SANITIZE = -g -fsanitize=address
+# SANITIZE = -g -fsanitize=address
 
 all: $(NAME)
 

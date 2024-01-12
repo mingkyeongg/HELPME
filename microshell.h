@@ -88,9 +88,10 @@ t_comm	*ft_redirect_handling(t_comm *cmd);
 void	exe_redirection(char *arg, int type);
 
 void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
-char	**make_args_fork(t_comm *cmd, int *args_cnt);
 
+char	**make_args_fork(t_comm *cmd, int *args_cnt);
 void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
+t_comm  *move_cmd(t_comm *cmd);
 
 void    ft_pwd(char **args);
 int		ft_cd(char **args);
