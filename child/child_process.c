@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:22:38 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 21:47:02 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:48:27 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,8 @@ void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
         close(fd[0]);
         if (cmd != NULL)
         {
-            printf("toss token = %s\n", cmd->token);
             ofd_arg->i_pid++;
             command_use_fork(cmd, my_envp, ofd_arg);
         }
     }
 }
-

@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:41:33 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 21:22:55 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 21:54:28 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 	int	status;
 	int	i;
 
+	ft_heredoc(cmd);
 	builtin = is_builtin(cmd); // first cmd builtin ret 1
 	cmd_count = is_pip(cmd); // return cmd, default 1 meet pipe ++
-
 	if (builtin == 1 && cmd_count == 1)
 		command_not_fork(cmd, my_envp, ofd_arg);
 	else
