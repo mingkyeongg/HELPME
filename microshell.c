@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:34:09 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/10 20:59:18 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 14:52:25 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ int main(int argc, char **argv, char **envp)
 	int		args_cnt;
 
 	my_envp = make_envp(envp);
+	(int)(argc);
+	(char **)argv;
 	while(1)
 	{
 		cmd = malloc(sizeof(t_comm));

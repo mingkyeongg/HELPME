@@ -35,7 +35,7 @@ SANITIZE = -g -fsanitize=address
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
+	$(CC) $(CFLAGS) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
 
 $(LIBFT):
 	$(MAKE) -C ./Libft
