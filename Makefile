@@ -32,6 +32,7 @@ SRCS =	./tokenizing/find_synerr.c \
 		./heredoc/bp_ft_heredoc.c \
 		run_command.c \
 		path.c \
+		get_env.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
@@ -44,7 +45,6 @@ all: $(NAME)
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
 	# cp -r $(NAME) ./testzone/$(NAME)
-
 $(LIBFT):
 	$(MAKE) -C ./Libft
 

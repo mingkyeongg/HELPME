@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/05 20:59:22 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/07 20:29:28 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:28:29 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-void    ft_env(t_envp *my_envp)
+void	ft_env(t_envp *my_envp)
 {
 	while (my_envp != NULL)
 	{

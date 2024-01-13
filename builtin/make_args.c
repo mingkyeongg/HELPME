@@ -73,7 +73,7 @@ char	**make_args(t_comm *cmd, int *args_cnt)
 		(*args_cnt)++;
 		args = put_args(args, cmd->token, *args_cnt);
 		if (cmd->next == NULL)
-			break;
+			break ;
 		cmd = cmd->next;
 	}
 	return (args);
