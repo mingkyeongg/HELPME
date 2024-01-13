@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:41:15 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/13 16:42:52 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/13 16:58:16 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	ft_export(t_envp *my_envp, char **args, int args_cnt);
 void    ft_unset(t_envp *my_envp, char **args);
 void    ft_env(t_envp *my_envp);
 void    ft_exit(t_comm *cmd, char **args);
+void	ft_execve(char **args);
 
 
 void	add_envp(t_envp *my_envp, char **envp, int i_line);
