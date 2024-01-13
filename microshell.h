@@ -26,12 +26,20 @@
 # include <readline/history.h>
 # include "libft/libft.h"
 
+typedef struct s_hdoc
+{
+	int				fd[2];
+	char			*filename;
+	char			*delimiter;
+	struct s_hdoc	*next;
+} t_hdoc;
+
 typedef struct s_comm
 {
 	char			*token;
 	int				length;
 	int				type;
-	int				fd[2];
+	t_hdoc			*hdoc;
 	struct s_comm	*prev;
 	struct s_comm	*next;
 }	t_comm;
@@ -46,12 +54,12 @@ typedef struct s_envp
 
 typedef struct s_data
 {
-	int 	in_fd; 
-	int 	out_fd;
-	char	**args;
-	int		arg_cnt;
-	pid_t	*pid;
-	int		i_pid;
+	pid_t			*pid;
+	int				i_pid;
+	int 			in_fd; 
+	int 			out_fd;
+	char			**args;
+	int				arg_cnt;
 	struct s_data	*next;
 }	t_data;
 
@@ -105,7 +113,7 @@ char	**make_args_fork(t_comm *cmd, int *args_cnt);
 void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
 t_comm  *move_cmd(t_comm *cmd);
 
-void	ft_heredoc(t_comm *cmd);
+int		ft_heredoc(t_comm *cmd);
 
 void    ft_pwd(char **args);
 int		ft_cd(char **args);
