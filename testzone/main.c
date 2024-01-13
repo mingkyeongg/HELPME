@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/29 11:31:34 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 18:15:53 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:32:55 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,20 +69,44 @@ void create_test_file(const char *filename) {
     close(fd);
 }
 
+void	args_bye(char **args)
+{
+	args[0] = "bye1";
+	args[1] = "bye2";
+	args[2] = "bye3";
+	args[3] = "bye4";
+	args[4] = "bye5";
+	args[5] = "bye6";
+}
+
 int main() {
-    const char *test_filename = "test_file.txt";
-    
-    // 예제 파일 생성
-    create_test_file(test_filename);
+	char **args;
 
-    // ft_redirection_out 함수를 사용하여 파일에 출력 리다이렉션
-    if (ft_redirection_out(test_filename, 1) == EXIT_FAILURE) {
-        fprintf(stderr, "Error redirecting output\n");
-        exit(EXIT_FAILURE);
-    }
-
-    // 이제 표준 출력은 test_file.txt로 리다이렉션됩니다.
-    printf("This is redirected output.\n");
-
-    return 0;
+	args = (char **)malloc(sizeof(char *) * 7);
+	args[0] = (char *)malloc(sizeof(char) * 10);
+	args[1] = (char *)malloc(sizeof(char) * 10);
+	args[2] = (char *)malloc(sizeof(char) * 10);
+	args[3] = (char *)malloc(sizeof(char) * 10);
+	args[4] = (char *)malloc(sizeof(char) * 10);
+	args[5] = (char *)malloc(sizeof(char) * 10);
+	args[6] = NULL;
+	args[0] = "hello1";
+	args[1] = "hello2";
+	args[2] = "hello3";
+	args[3] = "hello4";
+	args[4] = "hello5";
+	args[5] = "hello6";
+	int i = 0;
+	while (args[i] != NULL)
+	{
+		printf("%s\n", args[i]);
+		i++;
+	}
+	args_bye(args);
+	i = 0;
+	while (args[i] != NULL)
+	{
+		printf("%s\n", args[i]);
+		i++;
+	}
 }
