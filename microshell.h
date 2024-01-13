@@ -31,7 +31,7 @@ typedef struct s_comm
 	char			*token;
 	int				length;
 	int				type;
-	int				pipes[2];
+	int				fd[2];
 	struct s_comm	*prev;
 	struct s_comm	*next;
 }	t_comm;
@@ -46,9 +46,12 @@ typedef struct s_envp
 
 typedef struct s_data
 {
-	int				in_fd;
-	int				out_fd;
-	char			**arv;
+	int 	in_fd; 
+	int 	out_fd;
+	char	**args;
+	int		arg_cnt;
+	pid_t	*pid;
+	int		i_pid;
 	struct s_data	*next;
 }	t_data;
 
@@ -97,6 +100,12 @@ t_comm	*ft_redirect_handling(t_comm *cmd);
 void	exe_redirection(char *arg, int type);
 
 void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
+
+char	**make_args_fork(t_comm *cmd, int *args_cnt);
+void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
+t_comm  *move_cmd(t_comm *cmd);
+
+void	ft_heredoc(t_comm *cmd);
 
 void    ft_pwd(char **args);
 int		ft_cd(char **args);

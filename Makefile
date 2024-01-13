@@ -31,6 +31,7 @@ SRCS =	./tokenizing/find_synerr.c \
 		./child/move_cmd.c \
 		run_command.c \
 		path.c \
+		get_env.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
