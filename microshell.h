@@ -88,7 +88,7 @@ char	*ft_strdup(const char *s);
 char	**put_args(char **args, char *token, int cnt);
 char	**make_args(t_comm *com, int *args_cnt);
 
-void	exe_cmd(t_envp *my_envp, char **args, int args_cnt);
+void	exe_cmd(t_comm *cmd, t_envp *my_envp, char **args, int args_cnt);
 int		is_blt(char **args);
 
 t_envp	*make_envp(char **envp);
@@ -96,18 +96,24 @@ t_envp	*make_envp(char **envp);
 t_comm	*ft_redirect_handling(t_comm *cmd);
 void	exe_redirection(char *arg, int type);
 
-void	ft_pwd(char **args);
+void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg); 이건 여기 있고
+
+void    ft_pwd(char **args);
 int		ft_cd(char **args);
 void	ft_echo(char **args);
 void	ft_export(t_envp *my_envp, char **args, int args_cnt);
-void	ft_unset(t_envp *my_envp, char **args);
-void	ft_env(t_envp *my_envp);
-void	ft_exit(char **args);
+void    ft_unset(t_envp *my_envp, char **args);
+void    ft_env(t_envp *my_envp);
+void    ft_exit(t_comm *cmd, char **args); 인자 다름
+
 
 void	add_envp(t_envp *my_envp, char **envp, int i_line);
 
 void	print_my_envp(t_envp *my_envp);
 void	print_args(char **args);
+
+
+char	*find_cmd_path(char *command);
 
 /* tokenizing */
 

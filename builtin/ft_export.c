@@ -45,7 +45,8 @@ void	modi_export(t_envp *my_envp, char **args, int i_line, int pos)
 		cp_envp = cp_envp->next;
 		i++;
 	}
-	add_envp(cp_envp, args, i_line);
+	if (ft_strcmp(cp_envp->value, "") == 0)
+		add_envp(cp_envp, args, i_line);
 }
 
 void	add_export(t_envp *my_envp, char **args, int i_line)

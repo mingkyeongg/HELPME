@@ -40,6 +40,6 @@ void    ft_echo(char **args)// -nnnn수정해야함
 		if (args[i_line] != NULL)
 			ft_putstr_fd(" ", 1);
 	}
-	if (flag == 1)
+	if (flag == 0)
 		ft_putstr_fd("\n", 1);
 }

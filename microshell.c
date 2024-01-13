@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   microshell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:34:09 by minkylee          #+#    #+#             */
 /*   Updated: 2024/01/12 17:12:39 by minkylee         ###   ########.fr       */
@@ -39,16 +39,15 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_comm	*cmd;
 	t_envp	*my_envp;
-	t_data	*ofd_and_arg;
-	char	**args;
-	int		args_cnt;
+	t_data	*ofd_arg;
 
 	my_envp = make_envp(envp);
 	while (1)
 	{
 		cmd = malloc(sizeof(t_comm));
-		ofd_and_arg = malloc(sizeof(t_data));
+		ofd_arg = malloc(sizeof(t_data));
 		cmd = NULL;
+
 		if (!read_input(&cmd, my_envp))
 			continue ;
 		ofd_and_arg->in_fd = dup(0);
