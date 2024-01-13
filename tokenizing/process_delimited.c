@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/04 16:32:15 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 14:40:57 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:11:41 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,12 @@ void	push_back_delimited(char *token, int *index, t_comm **cmd, int *start)
 	*start = *index;
 }
 
-char	*find_delimited(char *token, t_comm **cmd, int i, int start)
+char	*find_delimited(char *token, t_comm **cmd, int start, t_envp *envp)
 {
 	char	*new_token;
+	int		i;
 
+	i = 0;
 	while (is_space(token[i]))
 	{
 		i++;

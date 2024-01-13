@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:33:05 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/11 20:48:56 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 16:07:48 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	fill_buf(char *line, char *buf)
 	}
 }
 
-int	tokenizing(char *line, t_comm **cmd, int i)
+int	tokenizing(char *line, t_comm **cmd, int i, t_envp *envp)
 {
 	char	*buf;
 
@@ -49,18 +49,18 @@ int	tokenizing(char *line, t_comm **cmd, int i)
 		free(buf);
 		return (0);
 	}
-	split_line(line, cmd);
+	split_line(line, cmd, envp);
 	return (1);
 }
 
-int	read_input(t_comm **cmd)
+int	read_input(t_comm **cmd, t_envp *envp)
 {
 	char	*read;
 
 	read = readline("minishell$ ");
 	if (read == NULL)
 		exit(0);
-	if (!tokenizing(read, cmd, 0))
+	if (!tokenizing(read, cmd, 0, envp))
 	{
 		add_history(read);
 		free(read);

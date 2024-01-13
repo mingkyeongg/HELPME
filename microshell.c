@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:34:09 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/11 21:02:19 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:12:39 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,35 @@
 	s : 문자열
 */
 
-int main(int argc, char **argv, char **envp)
+void check_leaks(void)
+{
+	system("leaks minishell");
+}
+
+int	main(int argc, char **argv, char **envp)
 {
 	t_comm	*cmd;
 	t_envp	*my_envp;
 	t_data	*ofd_arg;
 
 	my_envp = make_envp(envp);
-	while(1)
+	while (1)
 	{
 		cmd = malloc(sizeof(t_comm));
 		ofd_arg = malloc(sizeof(t_data));
 		cmd = NULL;
-		if (!read_input(&cmd))
-			continue;
-		run_command(cmd, my_envp, ofd_arg);
+
+		if (!read_input(&cmd, my_envp))
+			continue ;
+		ofd_and_arg->in_fd = dup(0);
+		ofd_and_arg->out_fd = dup(1);
+		cmd = ft_redirect_handling(cmd);
+		args = make_args(cmd, &args_cnt);
+		if (is_blt(args))
+			exe_cmd(my_envp, args, args_cnt);
+		free_list(cmd);
+		dup2(ofd_and_arg->in_fd, 0);
+		dup2(ofd_and_arg->out_fd, 1);
 	}
-	return (0);
+	atexit(check_leaks);
 }
