@@ -31,6 +31,8 @@ SRCS =	./tokenizing/find_synerr.c \
 		./child/move_cmd.c \
 		run_command.c \
 		path.c \
+		get_env.c
+		ft_execv.c
 
 OBJS = $(SRCS:.c=.o)
 LIBFT = ./Libft/libft.a
@@ -41,8 +43,7 @@ CFLAGS = -Wall -Werror -Wextra
 all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
-	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
-	cp $(NAME) ./testzone/$(NAME)
+	$(CC) $(CFLAGS) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
 
 $(LIBFT):
 	$(MAKE) -C ./Libft

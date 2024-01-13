@@ -6,90 +6,83 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/03 18:03:56 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/11 13:01:00 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:49:56 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../microshell.h"
 
-char  *process_squo(char *line, int *i, int *start, t_comm **cmd)
+char	*process_squo(char *line, t_range *range, t_comm **cmd, t_envp *envp)
 {
-	int quote_pos;  // 단따옴표 다음 문자부터 시작
-	char *squo_str;
-	char *temp;
-	char *token;
+	int		quote_pos;
+	char	*squo_str;
+	char	*temp;
+	char	*token;
 
-	quote_pos = *i + 1;
-	if (*i > *start)
+	quote_pos = range->i + 1;
+	if (range->i > range->start)
 	{
-		temp = mk_strdup(*start, *i - 1, line, REMOVE);
+		temp = mk_strdup(range->start, range->i - 1, line, REMOVE);
 		process_natural_str(&temp, cmd, line);
 	}
 	else
 		temp = ft_strdup("");
 	while (line[quote_pos] && !is_squotes(line[quote_pos]))
-		quote_pos++;  // 닫는 따옴표 찾기
-	if (is_squotes(line[quote_pos]))  // 닫는 단따옴표를 찾은 경우
+		quote_pos++;
+	if (is_squotes(line[quote_pos]))
 	{
-		squo_str = mk_strdup(*i + 1, quote_pos - 1, line, LEAVE);
+		squo_str = mk_strdup(range->i + 1, quote_pos - 1, line, LEAVE);
 		token = ft_strjoin(temp, squo_str);
-		index_update(i, start, quote_pos);
+		index_update(&range->i, &range->start, quote_pos);
 		free_temp(&temp, &squo_str);
-		return token;
+		return (token);
 	}
 	free(temp);
-	return NULL;
+	return (NULL);
 }
 
-char  *process_dquo(char *line, int *i, int *start, t_comm **cmd)
+char	*process_dquo(char *line, t_range *range, t_comm **cmd, t_envp *envp)
 {
-	int quote_pos;
-	char *dquo_str;
-	char *temp;
-	char *token;
+	int		quote_pos;
+	char	*dquo_str;
+	char	*temp;
+	char	*token;
 
-	quote_pos = *i + 1;
-	if (*i > *start)
-	{
-		temp = mk_strdup(*start, *i - 1, line, REMOVE);
-		process_natural_str(&temp, cmd, line);
-	}
-	else
-		temp = ft_strdup("");
+	quote_pos = range->i + 1;
+	temp = mk_strdup(range->start, range->i - 1, line, REMOVE);
+	process_natural_str(&temp, cmd, line);
 	while (line[quote_pos] && !is_dquotes(line[quote_pos]))
-		quote_pos++;  // 닫는 따옴표 찾기
-	if (is_dquotes(line[quote_pos]))  // 닫는 단따옴표를 찾은 경우
+		quote_pos++;
+	if (is_dquotes(line[quote_pos]))
 	{
-		dquo_str = mk_strdup(*i + 1, quote_pos - 1, line, LEAVE);
-		process_env_var(&dquo_str, cmd, QUOTED, line);
+		dquo_str = mk_strdup(range->i + 1, quote_pos - 1, line, LEAVE);
+		process_env_var(&dquo_str, cmd, line, envp);
 		token = ft_strjoin(temp, dquo_str);
-		index_update(i, start, quote_pos);
+		index_update(&range->i, &range->start, quote_pos);
 		free_temp(&temp, &dquo_str);
-		return token;
+		return (token);
 	}
 	free(temp);
-	return NULL;
+	return (NULL);
 }
 
-void push_quote_string(t_comm **cmd, char *line, int index, char **temp)
+void	push_quote_string(t_comm **cmd, char *line, int index, char **temp)
 {
-	if ((!line[index + 1]  || is_space(line[index + 1])) && *temp)
+	if ((!line[index + 1] || is_space(line[index + 1])) && *temp)
 		push_back(cmd, *temp, QUOTED);
 	else
 		push_back(cmd, *temp, CONTINUE);
-	free(*temp);  // 메모리 해제
+	free(*temp);
 }
 
-void process_in_quotes(char *line, int *index, int *start, t_comm **cmd)
+void	process_in_quotes(char *line, t_range *range, t_comm **cmd, t_envp *envp)
 {
-	char *temp;
+	char	*temp;
 
 	temp = NULL;
-	if (is_squotes(line[*index]))
-		temp = process_squo(line, index, start, cmd);
+	if (is_squotes(line[range->i]))
+		temp = process_squo(line, range, cmd, envp);
 	else
-		temp = process_dquo(line, index, start, cmd);
-	push_quote_string(cmd, line, *index, &temp);
+		temp = process_dquo(line, range, cmd, envp);
+	push_quote_string(cmd, line, range->i, &temp);
 }
-
-
