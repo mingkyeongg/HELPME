@@ -15,12 +15,20 @@
 
 #include "libft/libft.h"
 
+typedef struct s_hdoc
+{
+	char	*delimiter;
+	char	*filename;
+	int		in_fd;
+	int		out_fd;
+} t_hdoc;
+
 typedef struct s_comm
 {
 	char			*token;
 	int				length;
 	int				type;
-	int				fd[2];
+	t_hdoc			*hdoc;
 	struct s_comm	*prev;
 	struct s_comm	*next;
 } t_comm;
@@ -93,7 +101,7 @@ char	**make_args_fork(t_comm *cmd, int *args_cnt);
 void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
 t_comm  *move_cmd(t_comm *cmd);
 
-void	ft_heredoc(t_comm *cmd);
+int	ft_heredoc(t_comm *cmd);
 
 void    ft_pwd(char **args);
 int		ft_cd(char **args);

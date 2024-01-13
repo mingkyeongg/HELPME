@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 12:41:33 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 21:54:28 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/13 22:23:30 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,60 +109,3 @@ void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
 		}
 	}
 }
-
-// int	is_pipe_arg(t_comm *cmd)
-// {
-// 	t_comm	*cp_cmd;
-// 	int 	pos;
-
-// 	pos = 0;
-// 	while (cp_cmd != NULL)
-// 	{
-// 		if (cmd->type == PIPE)
-// 			return (pos);
-// 		pos++;
-// 		cp_cmd = cp_cmd->next;
-// 	}
-// 	return (0);
-// }
-
-// void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
-// {
-// 	t_comm	*head_cmd;
-// 	pid_t	pid;
-// 	int		fd[2];
-// 	int		pos_pipe;
-
-// 	head_cmd = cmd;
-// 	pid	= fork();
-// 	if (pid == -1)
-// 	{
-// 		perror("fork");
-// 		return ;
-// 	}
-// 	pipe(fd);
-// 	while (pos_pipe = is_pipe_arg(cmd) != 0)
-// 	{
-// 		cmd = ft_redirect_handling_fork(cmd);
-// 		ofd_arg->args = make_args_fork(cmd, &ofd_arg->arg_cnt);
-// 	}
-// 	// if (pos_pipe = is_pipe_arg(ofd_arg->args) != 0)
-// 	// {
-// 	// 	pipe(fd);
-// 	// 	pid = fork;
-// 	// 	if (pid == -1)
-// 	// 		perror("fork");
-// 	// 	if (pid == 0)
-// 	// 	{
-// 	// 		close(fd[0]);
-// 	// 		dup2(fd[1], 1);
-// 	// 		exe_cmd(cmd, my_envp, ofd_arg->args, ofd_arg->arg_cnt);
-// 	// 	}
-// 	// 	else
-// 	// 	{
-// 	// 		close(fd[1]);
-// 	// 		dup2(fd[0], 0);
-// 	// 		exe_cmd(cmd, my_envp, ofd_arg->args[pos_pipe + 1], ofd_arg->arg_cnt);
-// 	// 	}
-// 	// }
-// }

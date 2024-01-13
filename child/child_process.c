@@ -6,7 +6,7 @@
 /*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 12:22:38 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/12 21:48:27 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/13 19:38:55 by seokjyan         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ void	command_use_fork(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg)
         ft_redirect_handling(old_cmd);
         ofd_arg->args = make_args_fork(old_cmd, &ofd_arg->arg_cnt);
         exe_cmd(old_cmd, my_envp, ofd_arg->args, ofd_arg->arg_cnt);
-        exit(0);
+        if (is_blt(ofd_arg->args) == 1)
+            exit(0);
     }
 	else
     {
