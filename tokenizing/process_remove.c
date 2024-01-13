@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:48:23 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 15:08:08 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:55:06 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ void	remove_quotes(char **str, int start)
 		if (!is_dquotes((*str)[j]))
 		{
 			ret[i++] = (*str)[j];
-			printf("char : %c\n", (*str)[j]);
 		}
 		j++;
 	}

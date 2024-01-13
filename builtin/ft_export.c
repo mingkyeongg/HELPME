@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seokjyan <seokjyan@student.42.fr>          +#+  +:+       +#+        */
+/*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 13:44:46 by seokjyan          #+#    #+#             */
-/*   Updated: 2024/01/10 22:00:17 by seokjyan         ###   ########.fr       */
+/*   Updated: 2024/01/12 15:29:22 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	list_export(t_envp *my_envp)
 
 void	modi_export(t_envp *my_envp, char **args, int i_line, int pos)
 {
-	t_envp *cp_envp;
+	t_envp	*cp_envp;
 	int		i;
 
 	cp_envp = my_envp;

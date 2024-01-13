@@ -7,6 +7,7 @@
         "locale": "c",
         "unistd.h": "c",
         "string.h": "c",
-        "utsname.h": "c"
+        "utsname.h": "c",
+        "readline.h": "c"
     }
 }

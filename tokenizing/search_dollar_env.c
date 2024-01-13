@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/07 20:46:03 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 15:07:36 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/12 17:41:01 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	return_last_dollar_pos(char *str)
 	i = 0;
 	last_dollar = -1;
 	flag = 0;
+	if (!str)
+		return (-1);
 	while (str[i] && flag == 0)
 	{
 		while (str[i] == '$')
@@ -65,7 +67,10 @@ int	return_last_dollar_pos(char *str)
 			flag = 1;
 			i++;
 		}
-		i++;
+		if (str[i] == '\0')
+			break ;
+		else
+			i++;
 	}
 	return (last_dollar);
 }
@@ -109,6 +114,8 @@ void	find_last_pos(char **str)
 			p++;
 			flag = 1;
 		}
+		if (*p == '\0')
+			break ;
 		p++;
 	}
 	*str = last_dollar;
