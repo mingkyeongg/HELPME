@@ -8,6 +8,8 @@
         "unistd.h": "c",
         "string.h": "c",
         "utsname.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "iterator": "c",
+        "sstream": "c"
     }
 }

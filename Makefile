@@ -29,6 +29,7 @@ SRCS =	./tokenizing/find_synerr.c \
 		./child/child_process.c \
 		./child/make_args_fork.c \
 		./child/move_cmd.c \
+		./heredoc/bp_ft_heredoc.c \
 		run_command.c \
 		path.c \
 
@@ -42,7 +43,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS) $(LIBFT)
 	$(CC) $(SANITIZE) -o $(NAME) $(OBJS) -L./Libft -lft -lreadline
-	cp $(NAME) ./testzone/$(NAME)
+	# cp -r $(NAME) ./testzone/$(NAME)
 
 $(LIBFT):
 	$(MAKE) -C ./Libft
@@ -55,7 +56,7 @@ clean:
 	$(MAKE) clean -C ./Libft
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) ./testzone/$(NAME)
 	$(MAKE) fclean -C ./Libft
 
 re: fclean all
