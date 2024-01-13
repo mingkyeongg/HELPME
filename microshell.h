@@ -6,7 +6,7 @@
 /*   By: minkylee <minkylee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/12 15:41:15 by minkylee          #+#    #+#             */
-/*   Updated: 2024/01/12 18:11:32 by minkylee         ###   ########.fr       */
+/*   Updated: 2024/01/13 16:42:52 by minkylee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_envp	*make_envp(char **envp);
 t_comm	*ft_redirect_handling(t_comm *cmd);
 void	exe_redirection(char *arg, int type);
 
-void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg); 이건 여기 있고
+void	run_command(t_comm *cmd, t_envp *my_envp, t_data *ofd_arg);
 
 void    ft_pwd(char **args);
 int		ft_cd(char **args);
@@ -104,7 +104,7 @@ void	ft_echo(char **args);
 void	ft_export(t_envp *my_envp, char **args, int args_cnt);
 void    ft_unset(t_envp *my_envp, char **args);
 void    ft_env(t_envp *my_envp);
-void    ft_exit(t_comm *cmd, char **args); 인자 다름
+void    ft_exit(t_comm *cmd, char **args);
 
 
 void	add_envp(t_envp *my_envp, char **envp, int i_line);
